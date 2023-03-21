@@ -4,7 +4,7 @@ class Target {
     this.x = x;
     this.y = y;
     this.width = w;
-    this.label = l;
+    this.label = l.replace(" ", "\n");
     this.id = id;
     this.type = t;
   }
@@ -36,7 +36,7 @@ class Target {
     circle(this.x, this.y, this.width);
 
     // Draw label
-    textFont("Arial", 12);
+    textFont("Arial", 18);
     fill(color(255, 255, 255));
     textAlign(CENTER);
     text(this.label, this.x, this.y);
