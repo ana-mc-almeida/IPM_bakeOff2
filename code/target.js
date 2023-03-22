@@ -19,14 +19,14 @@ class Target {
   // and its label
   draw() {
     let colorsByType = createStringDict({
-      Juice: color(255, 0, 0), // count = 9
-      Milk: "green", // count = 6
-      Yoghurt: "yellow",
-      Apple: "blue",
-      Melon: "magenta",
-      Pepper: "cyan",
-      Potato: "orange",
-      Tomato: (0, 0, 0),
+      Juice: "purple", // count = 9
+      Milk: "teal", // count = 6
+      Yoghurt: "orange",
+      Apple: "green",
+      Melon: "lime",
+      Pepper: "blue",
+      Potato: "maroon",
+      Tomato: "red",
     });
 
     // Draw target
