@@ -32,6 +32,14 @@ let attempt = 0; // users complete each test twice to account for practice (atte
 
 // Target list
 let targets = [];
+let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12, 
+  59, 60, 77, 37, 32, 30, 22, 13, 1, 2, 
+  69, 61, 62, 33, 31, 36, 23, 8, 9, 10,
+  63, 64, 65, 54, 49, 53, 11, 14, 16, 17,
+  66, 72, 67, 56, 44, 57, 18, 19, 20, 24,
+  71, 76, 70, 50, 58, 55, 3, 25, 26, 4,
+  78, 79, 68, 80, 46, 47, 27, 5, 28, 15,
+  39, 38, 43, 42, 51, 40, 45, 48, 52, 41];
 
 // Ensures important data is loaded before the program starts
 function preload() {
@@ -63,7 +71,9 @@ function draw() {
     text("Trial " + (current_trial + 1) + " of " + trials.length, 50, 20);
 
     // Draw all targets
-    for (var i = 0; i < legendas.getRowCount(); i++) targets[i].draw();
+    for (var i = 0; i < legendas.getRowCount(); i++) {
+      targets[i].draw();
+    }
 
     // Draw the target label to be selected in the current trial
     textFont("Arial", 20);
@@ -209,6 +219,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
   // for the number of targets minus one
   h_margin = horizontal_gap / (GRID_COLUMNS - 1);
   v_margin = vertical_gap / (GRID_ROWS - 1);
+  let legendas_index = 0;
 
   // Set targets in a 8 x 10 grid
   for (var r = 0; r < GRID_ROWS; r++) {
@@ -217,15 +228,20 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
       let target_y = (v_margin + target_size) * r + target_size / 2;
 
       // Find the appropriate label and ID for this target
-      let legendas_index = c + GRID_COLUMNS * r;
+      //let legendas_index = c + GRID_COLUMNS * r;
 
-      let target_label = legendasS[legendas_index][0];
-      let target_id = legendasS[legendas_index][1];
-      let target_type = legendasS[legendas_index][2];
+      //let target_label = legendasS[legendas_index][0];
+      //let target_id = legendasS[legendas_index][1];
+      //let target_type = legendasS[legendas_index][2];
 
-      // let target_label = legendas.getString(legendas_index, 0);
-      // let target_id = legendas.getNum(legendas_index, 1);
-      // let target_type = legendas.getString(legendas_index, 2);
+      //let target_label = legendas[order[legendas_index]][0];
+      //let target_id = legendas[order[legendas_index]][1];
+      //let target_type = legendas[order[legendas_index]][2];
+      let numero = order[legendas_index]-1;
+
+      let target_label = legendas.getString(numero, 0);
+      let target_id = legendas.getNum(numero, 1);
+      let target_type = legendas.getString(numero, 2);
 
       let target = new Target(
         target_x,
@@ -235,6 +251,8 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         target_id,
         target_type
       );
+      legendas_index++;
+
       targets.push(target);
     }
   }
