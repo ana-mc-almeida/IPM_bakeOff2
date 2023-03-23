@@ -30,6 +30,41 @@ let trials; // contains the order of targets that activate in the test
 let current_trial = 0; // the current trial number (indexes into trials array above)
 let attempt = 0; // users complete each test twice to account for practice (attemps 0 and 1)
 
+
+
+// Target class (position and width)
+class Rectangle {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.width = w;
+    this.height = h;
+  }
+
+  // Draws the target (i.e., a circle)
+  // and its label
+  draw() {
+      // Draw rectangle
+      stroke("blue");
+      noFill();
+      strokeWeight(10);
+      rect(20, 20, 60, 60);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+//Recs list 
+let recs=[];
+
 // Target list
 let targets = [];
 let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12, 
@@ -75,6 +110,12 @@ function draw() {
     for (var i = 0; i < legendas.getRowCount(); i++) {
       targets[i].draw();
     }
+
+    for (var i = 0; i < 1; i++){
+      recs[i].draw();
+    }
+
+    fill(Null);     //TODO WTF IS THIS
 
     // Draw the target label to be selected in the current trial
     textFont("Arial", 20);
@@ -214,6 +255,24 @@ function continueTest() {
   draw_targets = true;
 }
 
+//Creates and positions the rectangles
+function createRecs(target_size, horizontal_gap, vertical_gap){
+  h_margin = horizontal_gap / (GRID_COLUMNS - 1);
+  v_margin = vertical_gap / (GRID_ROWS - 1);
+
+  x_base = 40 + (h_margin);
+  y_base = 40 + (v_margin);
+
+  let rec_1 = new Rectangle(
+    x_base,
+    y_base,
+    (h_margin + target_size) * 3 + target_size/4,
+    (v_margin + target_size) * 1 + target_size/4
+  )
+  recs.push(rec_1);
+}
+
+
 // Creates and positions the UI targets
 function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
@@ -279,6 +338,12 @@ function windowResized() {
     // Creates and positions the UI targets according to the white space defined above (in cm!)
     // 80 represent some margins around the display (e.g., for text)
     createTargets(
+      target_size * PPCM,
+      horizontal_gap * PPCM - 80,
+      vertical_gap * PPCM - 80
+    );
+
+    createRecs(
       target_size * PPCM,
       horizontal_gap * PPCM - 80,
       vertical_gap * PPCM - 80
