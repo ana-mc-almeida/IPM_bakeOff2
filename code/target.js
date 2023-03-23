@@ -19,14 +19,66 @@ class Target {
   // and its label
   draw() {
     let colorsByType = createStringDict({
+      
+      //FRUITS//
+      Apple: "orange",
+      Avocado: "orange",
+      Banana: "orange",
+      Kiwi: "orange",
+      Lemon: "orange",
+      Lime: "orange",
+      Mango: "orange",
+      Melon: "orange",
+      Nectarine: "orange",
+      Orange: "orange",
+      Papaya: "orange",
+      "Passion Fruit": "orange",            //ver como fazer isto para este que tem dois
+      Pear: "orange",
+      Peach: "orange",
+      Pineapple: "orange",
+      Plum: "orange",
+      Pomegranate: "orange",
+      "Red Grapefruit": "orange",            //ver como fazer isto para este que tem dois
+      Satsumas: "orange",
+
+      //JUICE//
       Juice: "purple", // count = 9
+
+      //MILK//
       Milk: "teal", // count = 6
-      Yoghurt: "orange",
-      Apple: "green",
-      Melon: "lime",
+      "Soy Milk": "teal",
+      "Oat Milk": "teal",
+      "Sour Milk": "teal",
+
+
+      //CREAM//
+      "Sour Cream": "teal",
+
+      //YOGHURT//
+      Yoghurt: "coral",
+      Oatghurt: "coral",
+      Soyghurt: "coral",
+
+
+      //VEGETABLES//
+      Asparagus: "blue",
+      Aubergine: "blue",
+      Cabbage: "blue",
+      Carrots: "blue",
+      Cucumber: "blue",
+      Garlic: "blue",
+      Ginger: "blue",
+      Leek: "blue",
+      Mushroom: "blue",
+      Onion: "blue",
       Pepper: "blue",
-      Potato: "maroon",
-      Tomato: "red",
+      Potato: "blue",
+      "Red Beet": "blue",
+      Tomato:"blue",
+      Zucchini:"blue",
+
+
+
     });
 
     // Draw target
