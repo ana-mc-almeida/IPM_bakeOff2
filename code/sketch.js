@@ -115,7 +115,7 @@ function draw() {
       recs[i].draw();
     }
 
-    fill(Null);     //TODO WTF IS THIS
+    noStroke();
 
     // Draw the target label to be selected in the current trial
     textFont("Arial", 20);
