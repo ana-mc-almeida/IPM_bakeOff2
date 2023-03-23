@@ -100,6 +100,13 @@ function draw() {
     // The user is interacting with the 6x3 target grid
     background(color(0, 0, 0)); // sets background to black
 
+    
+    for (var i = 0; i < 1; i++){
+      recs[i].draw();
+    }
+    
+    noStroke();
+    
     // Print trial count at the top left-corner of the canvas
     textFont("Arial", 16);
     fill(color(255, 255, 255));
@@ -111,11 +118,7 @@ function draw() {
       targets[i].draw();
     }
 
-    for (var i = 0; i < 1; i++){
-      recs[i].draw();
-    }
-
-    noStroke();
+    fill(color(255, 255, 255));
 
     // Draw the target label to be selected in the current trial
     textFont("Arial", 20);
@@ -335,15 +338,15 @@ function windowResized() {
     let horizontal_gap = screen_width - target_size * GRID_COLUMNS; // empty space in cm across the x-axis (based on 10 targets per row)
     let vertical_gap = screen_height - target_size * GRID_ROWS; // empty space in cm across the y-axis (based on 8 targets per column)
 
-    // Creates and positions the UI targets according to the white space defined above (in cm!)
-    // 80 represent some margins around the display (e.g., for text)
-    createTargets(
+    createRecs(
       target_size * PPCM,
       horizontal_gap * PPCM - 80,
       vertical_gap * PPCM - 80
     );
 
-    createRecs(
+    // Creates and positions the UI targets according to the white space defined above (in cm!)
+    // 80 represent some margins around the display (e.g., for text)
+    createTargets(
       target_size * PPCM,
       horizontal_gap * PPCM - 80,
       vertical_gap * PPCM - 80
