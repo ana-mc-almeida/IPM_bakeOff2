@@ -72,7 +72,7 @@ class Target {
       Mushroom: "blue",
       Onion: "blue",
       Pepper: "blue",
-      Potato: "blue",
+      Potato: "pink",
       "Red Beet": "blue",
       Tomato:"blue",
       Zucchini:"blue",
