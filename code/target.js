@@ -72,13 +72,8 @@ class Target {
       Mushroom: "blue",
       Onion: "blue",
       Pepper: "blue",
-      Potato: "blue",
-      "Red Beet": "blue",
-      Tomato:"blue",
-      Zucchini:"blue",
-
-
-
+      Potato: "maroon",
+      Tomato: "red",
     });
 
     // Draw target
