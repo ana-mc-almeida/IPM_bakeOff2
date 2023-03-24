@@ -31,31 +31,6 @@ let current_trial = 0; // the current trial number (indexes into trials array ab
 let attempt = 0; // users complete each test twice to account for practice (attemps 0 and 1)
 
 
-
-// Target class (position and width)
-class Rectangle {
-  constructor(x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.width = w;
-    this.height = h;
-  }
-
-  // Draws the target (i.e., a circle)
-  // and its label
-  draw() {
-      // Draw rectangle
-      stroke("white");
-      noFill();
-      strokeWeight(4);
-      rect(this.x, this.y, this.width, this.height);
-  }
-}
-
-
-//Recs list 
-let recs=[];
-
 // Target list
 let targets = [];
 let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12, 
@@ -66,6 +41,41 @@ let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12,
   71, 76, 70, 50, 58, 55, 3, 25, 26, 4,
   78, 79, 68, 80, 46, 47, 27, 5, 28, 15,
   39, 38, 43, 42, 51, 40, 45, 48, 52, 41];
+
+let lines = [];
+let lines_x = [0,0,3,0,0,0,10,3,6,3,4,6];
+let lines_y = [0,1,6,8,7,0,0,0,0,3,6,6];
+let lines_d = [10,3,3,10,10,8,8,6,6,3,1,1];
+let lines_isHorizontal = [true, true, true, true, true, false, false, false, false, true,false,false];
+
+
+class Line {
+  constructor(x, y, isHorizontal, distance) {
+      this.x = x;
+      this.y = y;
+      this.isHorizontal = isHorizontal;
+      this.d = distance;
+  }
+  
+  draw() {
+      let x2;
+      let y2;
+      if (this.isHorizontal) {
+          x2 = this.x + this.d;
+          y2 = this.y;
+      }
+      else {
+          x2 = this.x;
+          y2 = this.y + this.d;
+      }
+      
+      push();
+      stroke(255);
+      strokeWeight(3);
+      line(this.x, this.y, x2, y2);
+      pop();
+  }
+}
 
 
 // Ensures important data is loaded before the program starts
@@ -91,12 +101,7 @@ function draw() {
     // The user is interacting with the 6x3 target grid
     background(color(0, 0, 0)); // sets background to black
 
-    
-    for (var i = 0; i < 3; i++){
-      recs[i].draw();
-    }
-
-    //recs[0].draw();
+    for (var j = 0; j < lines.length; j++) lines[j].draw();
     
     noStroke();
     
@@ -251,46 +256,28 @@ function continueTest() {
   draw_targets = true;
 }
 
-//Creates and positions the rectangles
-function createRecs(target_size, horizontal_gap, vertical_gap){
-  h_margin = horizontal_gap / (GRID_COLUMNS - 1);
+function createLines(target_size, horizontal_gap, vertical_gap) {
+  h_margin = horizontal_gap / (GRID_COLUMNS -1);
   v_margin = vertical_gap / (GRID_ROWS - 1);
-
-  x_base = 1 + (h_margin) - h_margin/4;
-  y_base = 40 + (v_margin);
-  rec_3t_width = target_size*3 + h_margin*2 + h_margin/4 + h_margin/4;
-  rec_1t_height = target_size*1 + v_margin/2;
-  rec_3t_height = target_size*3 + 2*v_margin + v_margin/2;
-  rec_4t_width = target_size*4 + 3*h_margin + h_margin/4 + h_margin/4;
-  rec_7t_height = target_size*7 + 6*v_margin + v_margin/2;
-
-
-  let rec_1 = new Rectangle(
-    x_base,
-    y_base,
-    rec_3t_width,//target_size*3 + h_margin*2 + h_margin/2 + h_margin/2,
-    rec_1t_height
-  );
-  recs.push(rec_1);
-
-  let rec_2 = new Rectangle(
-    x_base + rec_3t_width + h_margin/2,
-    y_base,
-    rec_3t_width,
-    rec_3t_height
-  );
-  recs.push(rec_2);
-
-  let rec_3 = new Rectangle(
-    x_base + 2*rec_3t_width + h_margin ,//+ h_margin/4,
-    y_base,
-    rec_4t_width,
-    rec_7t_height
-  );
-  recs.push(rec_3);
-
-}
-
+  
+  let distance_to_target_h = h_margin / 2;
+  let distance_to_target_v = v_margin / 2;
+  
+  for (var i = 0; i < lines_x.length; i++) {
+      let x = 40 + (h_margin + target_size) * lines_x[i] - distance_to_target_h;
+      let y = 40 + (v_margin + target_size) * lines_y[i] - distance_to_target_v;
+      let distance;
+      if (lines_isHorizontal[i]) {
+          distance = (h_margin + target_size) * lines_d[i];
+      }
+      else {
+          distance = (v_margin + target_size) * lines_d[i];
+      }    
+      
+      let line = new Line(x, y, lines_isHorizontal[i], distance);
+      lines.push(line);
+  }
+} 
 
 // Creates and positions the UI targets
 function createTargets(target_size, horizontal_gap, vertical_gap) {
@@ -353,18 +340,18 @@ function windowResized() {
     let target_size = 2; // sets the target size (will be converted to cm when passed to createTargets)
     let horizontal_gap = screen_width - target_size * GRID_COLUMNS; // empty space in cm across the x-axis (based on 10 targets per row)
     let vertical_gap = screen_height - target_size * GRID_ROWS; // empty space in cm across the y-axis (based on 8 targets per column)
-
-    createRecs(
-      target_size * PPCM,
-      horizontal_gap * PPCM - 80,
-      vertical_gap * PPCM - 80
-    );
-
+    
     // Creates and positions the UI targets according to the white space defined above (in cm!)
     // 80 represent some margins around the display (e.g., for text)
     createTargets(
       target_size * PPCM,
       horizontal_gap * PPCM - 80,
+      vertical_gap * PPCM - 80
+    );
+
+    createLines(
+      target_size * PPCM, 
+      horizontal_gap * PPCM - 80, 
       vertical_gap * PPCM - 80
     );
 
