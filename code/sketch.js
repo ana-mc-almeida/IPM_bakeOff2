@@ -45,21 +45,12 @@ class Rectangle {
   // and its label
   draw() {
       // Draw rectangle
-      stroke("blue");
+      stroke("white");
       noFill();
-      strokeWeight(10);
-      rect(20, 20, 60, 60);
+      strokeWeight(4);
+      rect(this.x, this.y, this.width, this.height);
   }
 }
-
-
-
-
-
-
-
-
-
 
 
 //Recs list 
@@ -104,6 +95,8 @@ function draw() {
     for (var i = 0; i < 1; i++){
       recs[i].draw();
     }
+
+    //recs[0].draw();
     
     noStroke();
     
@@ -263,15 +256,16 @@ function createRecs(target_size, horizontal_gap, vertical_gap){
   h_margin = horizontal_gap / (GRID_COLUMNS - 1);
   v_margin = vertical_gap / (GRID_ROWS - 1);
 
-  x_base = 40 + (h_margin);
+  x_base = (h_margin) - h_margin/2;
   y_base = 40 + (v_margin);
 
   let rec_1 = new Rectangle(
     x_base,
     y_base,
-    (h_margin + target_size) * 3 + target_size/4,
-    (v_margin + target_size) * 1 + target_size/4
-  )
+    target_size*3 + h_margin*2 + h_margin/2 + h_margin/2,
+    target_size*2 + v_margin + v_margin/2
+  );
+
   recs.push(rec_1);
 }
 
