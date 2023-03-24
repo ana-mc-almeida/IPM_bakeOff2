@@ -92,7 +92,7 @@ function draw() {
     background(color(0, 0, 0)); // sets background to black
 
     
-    for (var i = 0; i < 1; i++){
+    for (var i = 0; i < 3; i++){
       recs[i].draw();
     }
 
@@ -256,17 +256,39 @@ function createRecs(target_size, horizontal_gap, vertical_gap){
   h_margin = horizontal_gap / (GRID_COLUMNS - 1);
   v_margin = vertical_gap / (GRID_ROWS - 1);
 
-  x_base = (h_margin) - h_margin/2;
+  x_base = 1 + (h_margin) - h_margin/4;
   y_base = 40 + (v_margin);
+  rec_3t_width = target_size*3 + h_margin*2 + h_margin/4 + h_margin/4;
+  rec_1t_height = target_size*1 + v_margin/2;
+  rec_3t_height = target_size*3 + 2*v_margin + v_margin/2;
+  rec_4t_width = target_size*4 + 3*h_margin + h_margin/4 + h_margin/4;
+  rec_7t_height = target_size*7 + 6*v_margin + v_margin/2;
+
 
   let rec_1 = new Rectangle(
     x_base,
     y_base,
-    target_size*3 + h_margin*2 + h_margin/2 + h_margin/2,
-    target_size*2 + v_margin + v_margin/2
+    rec_3t_width,//target_size*3 + h_margin*2 + h_margin/2 + h_margin/2,
+    rec_1t_height
   );
-
   recs.push(rec_1);
+
+  let rec_2 = new Rectangle(
+    x_base + rec_3t_width + h_margin/2,
+    y_base,
+    rec_3t_width,
+    rec_3t_height
+  );
+  recs.push(rec_2);
+
+  let rec_3 = new Rectangle(
+    x_base + 2*rec_3t_width + h_margin ,//+ h_margin/4,
+    y_base,
+    rec_4t_width,
+    rec_7t_height
+  );
+  recs.push(rec_3);
+
 }
 
 
