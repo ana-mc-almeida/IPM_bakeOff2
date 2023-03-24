@@ -78,6 +78,7 @@ function draw() {
 
     // Draw the target label to be selected in the current trial
     textFont("Arial", 20);
+    fill(color(255, 255, 255));
     textAlign(CENTER);
     text(legendas.getString(trials[current_trial], 0), width / 2, height - 20);
   }

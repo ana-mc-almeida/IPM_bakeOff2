@@ -21,28 +21,28 @@ class Target {
     let colorsByType = createStringDict({
       
       //FRUITS//
-      Apple: color(204,102,0),
-      Avocado: color(204,102,0),
-      Banana: color(204,102,0),
-      Kiwi: color(204,102,0),
-      Lemon: color(204,102,0),
-      Lime: color(204,102,0),
-      Mango: color(204,102,0),
-      Melon: color(204,102,0),
-      Nectarine: color(204,102,0),
-      Orange: color(204,102,0),
-      Papaya: color(204,102,0),
-      "Passion Fruit": color(204,102,0),            //ver como fazer isto para este que tem dois
-      Pear: color(204,102,0),
-      Peach: color(204,102,0),
-      Pineapple: color(204,102,0),
-      Plum: color(204,102,0),
-      Pomegranate: color(204,102,0),
-      "Red Grapefruit": color(204,102,0),            //ver como fazer isto para este que tem dois
-      Satsumas: color(204,102,0),
+      Apple: color(226,24,24),
+      Avocado: color(226,24,24),
+      Banana: color(226,24,24),
+      Kiwi: color(226,24,24),
+      Lemon: color(226,24,24),
+      Lime: color(226,24,24),
+      Mango: color(226,24,24),
+      Melon: color(226,24,24),
+      Nectarine: color(226,24,24),
+      Orange: color(226,24,24),
+      Papaya: color(226,24,24),
+      "Passion Fruit": color(226,24,24),            //ver como fazer isto para este que tem dois
+      Pear: color(226,24,24),
+      Peach: color(226,24,24),
+      Pineapple: color(226,24,24),
+      Plum: color(226,24,24),
+      Pomegranate: color(226,24,24),
+      "Red Grapefruit": color(226,24,24),            //ver como fazer isto para este que tem dois
+      Satsumas: color(226,24,24),
 
       //JUICE//
-      Juice: color(200,0,0), // count = 9
+      Juice: color(204,102,0), // count = 9
 
       //MILK//
       Milk: "white", // count = 6
@@ -61,20 +61,20 @@ class Target {
 
 
       //VEGETABLES//
-      Asparagus: color(51,102,0),
-      Aubergine: color(51,102,0),
-      Cabbage: color(51,102,0),
-      Carrots: color(51,102,0),
-      Cucumber: color(51,102,0),
-      Garlic: color(51,102,0),
-      Ginger: color(51,102,0),
-      Leek: color(51,102,0),
-      Mushroom: color(51,102,0),
-      Onion: color(51,102,0),
-      Pepper: color(51,102,0),
-      "Red Beet": color(51,102,0),
-      Tomato: color(51,102,0),
-      Zucchini: color(51,102,0),
+      Asparagus: color(83,145,101),
+      Aubergine: color(83,145,101),
+      Cabbage: color(83,145,101),
+      Carrots: color(83,145,101),
+      Cucumber: color(83,145,101),
+      Garlic: color(83,145,101),
+      Ginger: color(83,145,101),
+      Leek: color(83,145,101),
+      Mushroom: color(83,145,101),
+      Onion: color(83,145,101),
+      Pepper: color(83,145,101),
+      "Red Beet": color(83,145,101),
+      Tomato: color(83,145,101),
+      Zucchini: color(83,145,101),
 
       //POTATOS//
       Potato: color(107,65,33),
