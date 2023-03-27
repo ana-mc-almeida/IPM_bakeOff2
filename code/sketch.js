@@ -30,8 +30,52 @@ let trials; // contains the order of targets that activate in the test
 let current_trial = 0; // the current trial number (indexes into trials array above)
 let attempt = 0; // users complete each test twice to account for practice (attemps 0 and 1)
 
+
+
+// Target class (position and width)
+class Rectangle {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.width = w;
+    this.height = h;
+  }
+
+  // Draws the target (i.e., a circle)
+  // and its label
+  draw() {
+      // Draw rectangle
+      stroke("blue");
+      noFill();
+      strokeWeight(10);
+      rect(20, 20, 60, 60);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+//Recs list 
+let recs=[];
+
 // Target list
 let targets = [];
+let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12, 
+59, 60, 77, 37, 32, 30, 22, 13, 1, 2, 
+69, 61, 62, 33, 31, 36, 23, 8, 9, 10,
+63, 64, 65, 54, 49, 53, 11, 14, 16, 17,
+66, 72, 67, 56, 44, 57, 18, 19, 20, 24,
+71, 76, 70, 50, 58, 55, 3, 25, 26, 4,
+78, 79, 68, 80, 46, 47, 27, 5, 28, 15,
+39, 38, 43, 42, 51, 40, 45, 48, 52, 41];
+
 
 // Ensures important data is loaded before the program starts
 function preload() {
@@ -56,6 +100,13 @@ function draw() {
     // The user is interacting with the 6x3 target grid
     background(color(0, 0, 0)); // sets background to black
 
+    
+    // for (var i = 0; i < 1; i++){
+    //   recs[i].draw();
+    // }
+    
+    noStroke();
+    
     // Print trial count at the top left-corner of the canvas
     textFont("Arial", 16);
     fill(color(255, 255, 255));
@@ -63,7 +114,11 @@ function draw() {
     text("Trial " + (current_trial + 1) + " of " + trials.length, 50, 20);
 
     // Draw all targets
-    for (var i = 0; i < legendas.getRowCount(); i++) targets[i].draw();
+    for (var i = 0; i < legendas.getRowCount(); i++) {
+      targets[i].draw();
+    }
+
+    fill(color(255, 255, 255));
 
     // Draw the target label to be selected in the current trial
     textFont("Arial", 20);
@@ -83,6 +138,7 @@ function printAndSavePerformance() {
     0,
     100
   );
+  console.log("PENALTY: " + penalty)
   let target_w_penalty = nf(
     test_time / parseFloat(hits + misses) + penalty,
     0,
@@ -203,12 +259,31 @@ function continueTest() {
   draw_targets = true;
 }
 
+//Creates and positions the rectangles
+// function createRecs(target_size, horizontal_gap, vertical_gap){
+//   h_margin = horizontal_gap / (GRID_COLUMNS - 1);
+//   v_margin = vertical_gap / (GRID_ROWS - 1);
+
+//   x_base = 40 + (h_margin);
+//   y_base = 40 + (v_margin);
+
+//   let rec_1 = new Rectangle(
+//     x_base,
+//     y_base,
+//     (h_margin + target_size) * 3 + target_size/4,
+//     (v_margin + target_size) * 1 + target_size/4
+//   )
+//   recs.push(rec_1);
+// }
+
+
 // Creates and positions the UI targets
 function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
   // for the number of targets minus one
   h_margin = horizontal_gap / (GRID_COLUMNS - 1);
   v_margin = vertical_gap / (GRID_ROWS - 1);
+  let legendas_index = 0;
 
   // Set targets in a 8 x 10 grid
   for (var r = 0; r < GRID_ROWS; r++) {
@@ -217,15 +292,20 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
       let target_y = (v_margin + target_size) * r + target_size / 2;
 
       // Find the appropriate label and ID for this target
-      let legendas_index = c + GRID_COLUMNS * r;
+      //let legendas_index = c + GRID_COLUMNS * r;
 
-      let target_label = legendasS[legendas_index][0];
-      let target_id = legendasS[legendas_index][1];
-      let target_type = legendasS[legendas_index][2];
+      //let target_label = legendasS[legendas_index][0];
+      //let target_id = legendasS[legendas_index][1];
+      //let target_type = legendasS[legendas_index][2];
 
-      // let target_label = legendas.getString(legendas_index, 0);
-      // let target_id = legendas.getNum(legendas_index, 1);
-      // let target_type = legendas.getString(legendas_index, 2);
+      //let target_label = legendas[order[legendas_index]][0];
+      //let target_id = legendas[order[legendas_index]][1];
+      //let target_type = legendas[order[legendas_index]][2];
+      let numero = order[legendas_index]-1;
+
+      let target_label = legendas.getString(numero, 0);
+      let target_id = legendas.getNum(numero, 1);
+      let target_type = legendas.getString(numero, 2);
 
       let target = new Target(
         target_x,
@@ -235,6 +315,8 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         target_id,
         target_type
       );
+      legendas_index++;
+
       targets.push(target);
     }
   }
@@ -256,6 +338,12 @@ function windowResized() {
     let target_size = 2; // sets the target size (will be converted to cm when passed to createTargets)
     let horizontal_gap = screen_width - target_size * GRID_COLUMNS; // empty space in cm across the x-axis (based on 10 targets per row)
     let vertical_gap = screen_height - target_size * GRID_ROWS; // empty space in cm across the y-axis (based on 8 targets per column)
+
+    // createRecs(
+    //   target_size * PPCM,
+    //   horizontal_gap * PPCM - 80,
+    //   vertical_gap * PPCM - 80
+    // );
 
     // Creates and positions the UI targets according to the white space defined above (in cm!)
     // 80 represent some margins around the display (e.g., for text)
