@@ -68,13 +68,13 @@ let recs=[];
 // Target list
 let targets = [];
 let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12, 
-  59, 60, 77, 37, 32, 30, 22, 13, 1, 2, 
-  69, 61, 62, 33, 31, 36, 23, 8, 9, 10,
-  63, 64, 65, 54, 49, 53, 11, 14, 16, 17,
-  66, 72, 67, 56, 44, 57, 18, 19, 20, 24,
-  71, 76, 70, 50, 58, 55, 3, 25, 26, 4,
-  78, 79, 68, 80, 39, 47, 27, 5, 28, 15,
-  46, 38, 43, 42, 51, 40, 45, 48, 52, 41];
+59, 60, 77, 37, 32, 30, 22, 13, 1, 2, 
+69, 61, 62, 33, 31, 36, 23, 8, 9, 10,
+63, 64, 65, 54, 49, 53, 11, 14, 16, 17,
+66, 72, 67, 56, 44, 57, 18, 19, 20, 24,
+71, 76, 70, 50, 58, 55, 3, 25, 26, 4,
+78, 79, 68, 80, 46, 47, 27, 5, 28, 15,
+39, 38, 43, 42, 51, 40, 45, 48, 52, 41];
 
 
 // Ensures important data is loaded before the program starts
@@ -101,9 +101,9 @@ function draw() {
     background(color(0, 0, 0)); // sets background to black
 
     
-    for (var i = 0; i < 1; i++){
-      recs[i].draw();
-    }
+    // for (var i = 0; i < 1; i++){
+    //   recs[i].draw();
+    // }
     
     noStroke();
     
@@ -138,6 +138,7 @@ function printAndSavePerformance() {
     0,
     100
   );
+  console.log("PENALTY: " + penalty)
   let target_w_penalty = nf(
     test_time / parseFloat(hits + misses) + penalty,
     0,
@@ -259,21 +260,21 @@ function continueTest() {
 }
 
 //Creates and positions the rectangles
-function createRecs(target_size, horizontal_gap, vertical_gap){
-  h_margin = horizontal_gap / (GRID_COLUMNS - 1);
-  v_margin = vertical_gap / (GRID_ROWS - 1);
+// function createRecs(target_size, horizontal_gap, vertical_gap){
+//   h_margin = horizontal_gap / (GRID_COLUMNS - 1);
+//   v_margin = vertical_gap / (GRID_ROWS - 1);
 
-  x_base = 40 + (h_margin);
-  y_base = 40 + (v_margin);
+//   x_base = 40 + (h_margin);
+//   y_base = 40 + (v_margin);
 
-  let rec_1 = new Rectangle(
-    x_base,
-    y_base,
-    (h_margin + target_size) * 3 + target_size/4,
-    (v_margin + target_size) * 1 + target_size/4
-  )
-  recs.push(rec_1);
-}
+//   let rec_1 = new Rectangle(
+//     x_base,
+//     y_base,
+//     (h_margin + target_size) * 3 + target_size/4,
+//     (v_margin + target_size) * 1 + target_size/4
+//   )
+//   recs.push(rec_1);
+// }
 
 
 // Creates and positions the UI targets
@@ -338,11 +339,11 @@ function windowResized() {
     let horizontal_gap = screen_width - target_size * GRID_COLUMNS; // empty space in cm across the x-axis (based on 10 targets per row)
     let vertical_gap = screen_height - target_size * GRID_ROWS; // empty space in cm across the y-axis (based on 8 targets per column)
 
-    createRecs(
-      target_size * PPCM,
-      horizontal_gap * PPCM - 80,
-      vertical_gap * PPCM - 80
-    );
+    // createRecs(
+    //   target_size * PPCM,
+    //   horizontal_gap * PPCM - 80,
+    //   vertical_gap * PPCM - 80
+    // );
 
     // Creates and positions the UI targets according to the white space defined above (in cm!)
     // 80 represent some margins around the display (e.g., for text)
