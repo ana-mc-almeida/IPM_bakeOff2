@@ -257,15 +257,33 @@ function continueTest() {
 }
 
 function createLines(target_size, horizontal_gap, vertical_gap) {
-  h_margin = horizontal_gap / (GRID_COLUMNS -1);
-  v_margin = vertical_gap / (GRID_ROWS - 1);
+  h_margin = horizontal_gap / 20;
+  v_margin = vertical_gap / 1.5;
   
   let distance_to_target_h = h_margin / 2;
   let distance_to_target_v = v_margin / 2;
   
   for (var i = 0; i < lines_x.length; i++) {
-      let x = 40 + (h_margin + target_size) * lines_x[i] - distance_to_target_h;
-      let y = 40 + (v_margin + target_size) * lines_y[i] - distance_to_target_v;
+    let x, y;
+
+    if (lines_x[i] <= 5){
+      x = 40 + (h_margin + target_size) * lines_x[i] - distance_to_target_h;
+    }
+
+    if (lines_x[i] > 5 && lines_x[i] <= 6){
+      x = 40 + (h_margin + target_size) * lines_x[i] + 4 * h_margin - distance_to_target_h;
+    }
+
+    if (lines_x[i] > 6){
+      x = 40 + (h_margin + target_size) * lines_x[i] + 8 * h_margin - distance_to_target_h
+    }
+
+    if (lines_y[i] <= 6){
+      y = 40 + (target_size)*lines_y[i];
+    }
+
+      //let x = 40 + (h_margin + target_size) * lines_x[i] - distance_to_target_h;
+      //let y = 40 + (v_margin + target_size) * lines_y[i] - distance_to_target_v;
       let distance;
       if (lines_isHorizontal[i]) {
           distance = (h_margin + target_size) * lines_d[i];
