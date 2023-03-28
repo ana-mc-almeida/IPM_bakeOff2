@@ -136,6 +136,7 @@ function printAndSavePerformance() {
     0,
     100
   );
+  console.log("PENALTY: " + penalty)
   let target_w_penalty = nf(
     test_time / parseFloat(hits + misses) + penalty,
     0,
@@ -340,7 +341,13 @@ function windowResized() {
     let target_size = 2; // sets the target size (will be converted to cm when passed to createTargets)
     let horizontal_gap = screen_width - target_size * GRID_COLUMNS; // empty space in cm across the x-axis (based on 10 targets per row)
     let vertical_gap = screen_height - target_size * GRID_ROWS; // empty space in cm across the y-axis (based on 8 targets per column)
-    
+
+    // createRecs(
+    //   target_size * PPCM,
+    //   horizontal_gap * PPCM - 80,
+    //   vertical_gap * PPCM - 80
+    // );
+
     // Creates and positions the UI targets according to the white space defined above (in cm!)
     // 80 represent some margins around the display (e.g., for text)
     createTargets(
