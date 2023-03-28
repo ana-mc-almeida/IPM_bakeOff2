@@ -4,6 +4,7 @@ class Target {
     this.x = x;
     this.y = y;
     this.width = w;
+    this.name = l;
     this.label = l.replace(" ", "\n");
     this.id = id;
     this.type = t;
@@ -18,86 +19,74 @@ class Target {
   // Draws the target (i.e., a circle)
   // and its label
   draw() {
-    let colorsByType = createStringDict({
-      
-      //FRUITS//
-      Apple: color(226,24,24),
-      Avocado: color(226,24,24),
-      Banana: color(226,24,24),
-      Kiwi: color(226,24,24),
-      Lemon: color(226,24,24),
-      Lime: color(226,24,24),
-      Mango: color(226,24,24),
-      Melon: color(226,24,24),
-      Nectarine: color(226,24,24),
-      Orange: color(226,24,24),
-      Papaya: color(226,24,24),
-      "Passion Fruit": color(226,24,24),            //ver como fazer isto para este que tem dois
-      Pear: color(226,24,24),
-      Peach: color(226,24,24),
-      Pineapple: color(226,24,24),
-      Plum: color(226,24,24),
-      Pomegranate: color(226,24,24),
-      "Red Grapefruit": color(226,24,24),            //ver como fazer isto para este que tem dois
-      Satsumas: color(226,24,24),
-
-      //JUICE//
-      Juice: color(204,102,0), // count = 9
-
+    let letterColorByType = createStringDict({
       //MILK//
-      Milk: "white", // count = 6
+      Milk: "white",
       "Soy Milk": "white",
       "Oat Milk": "white",
       "Sour Milk": "white",
 
-
-      //CREAM//
-      "Sour Cream": color(255,255,153),
-
-      //YOGHURT//
-      Yoghurt: color(0,0,255),
-      Oatghurt: color(0,0,255),
-      Soyghurt: color(0,0,255),
-
-
-      //VEGETABLES//
-      Asparagus: color(83,145,101),
-      Aubergine: color(83,145,101),
-      Cabbage: color(83,145,101),
-      Carrots: color(83,145,101),
-      Cucumber: color(83,145,101),
-      Garlic: color(83,145,101),
-      Ginger: color(83,145,101),
-      Leek: color(83,145,101),
-      Mushroom: color(83,145,101),
-      Onion: color(83,145,101),
-      Pepper: color(83,145,101),
-      "Red Beet": color(83,145,101),
-      Tomato: color(83,145,101),
-      Zucchini: color(83,145,101),
-
-      //POTATOS//
-      Potato: color(107,65,33),
-
+      "Sour Cream": "white",
     });
 
-    let letterColorByType = createStringDict({
-      //MILK//
-      Milk: "black",
-      "Soy Milk": "black",
-      "Oat Milk": "black",
-      "Sour Milk": "black",
+    let strokeByName = createStringDict({
+      "Pink Lady": "pink",
 
-      "Sour Cream": "black",
+      "Red Beet": "red",
+      "Red Delicious": "red",
+      "Red Grapefruit": "red",
+    })
+
+    let colorsByName = createStringDict({
+      
+      Golden: color(153, 0, 0),
+      "Granny Smith": color(153, 0, 0),
+      "Pink Lady": color(153, 0, 0),
+      "Red Delicious": color(153, 0, 0),
+      "Royal Gala": color(153, 0, 0),
+
+      Orange: color(204, 82, 0),
+      "Orange Juice": color(204, 82, 0),
+
+      Mango: "orange",
+      "Mango Juice": "orange",
+      "Mango Yoghurt": "orange",
+
+      Anjou: color(102, 153, 0),
+      Conference: color(102, 153, 0),
+      Kaiser: color(102, 153, 0),
+      "Pear Yoghurt": color(102, 153, 0),
+
+      "Cherry Juice": color(153, 0, 51),
+      "Cherry Yoghurt": color(153, 0, 51),
+
+      "Bio Fat Milk": color(0, 51, 153),
+      "Bio Skim Milk": color(0, 51, 153),
+      "Bio Milk": color(0, 51, 153),
+      "Bio Cream": color(0, 51, 153),
+      "Bio Soyghurt": color(0, 51, 153),
+      "Bio Soy Milk": color(0, 51, 153),
+
+      "White Potato": color(102, 51, 0),
+      "Red Potato": color(102, 51, 0),
+      "Sweet Potato": color(102, 51, 0),
     });
+
 
     // Draw target
-    if (colorsByType.hasKey(this.type))
-      fill(color(colorsByType.get(this.type)));
+    if (strokeByName.hasKey(this.name)) {
+      stroke(strokeByName.get(this.name)),
+      strokeWeight(4)
+    }
+    else strokeWeight(0);
+  
+    if (colorsByName.hasKey(this.name))
+      fill(color(colorsByName.get(this.name)));
     else fill(color(155, 155, 155));
     circle(this.x, this.y, this.width);
 
     // Draw label
+    strokeWeight(0);
     textFont("Arial", 18);
     //fill(color(255, 255, 255));
 
