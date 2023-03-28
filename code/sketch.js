@@ -13,7 +13,7 @@ const RECORD_TO_FIREBASE = false; // Set to 'true' to record user results to Fir
 let PPI, PPCM;
 const NUM_OF_TRIALS = 12; // The numbers of trials (i.e., target selections) to be completed
 const GRID_ROWS = 8; // We divide our 80 targets in a 8x10 grid
-const GRID_COLUMNS = 10; // We divide our 80 targets in a 8x10 grid
+const GRID_COLUMNS = 12; // We divide our 80 targets in a 8x10 grid
 let continue_button;
 let legendas; // The item list from the "legendas" CSV
 let legendasS; // The item list from the "legendas" CSV but sorted
@@ -30,28 +30,37 @@ let trials; // contains the order of targets that activate in the test
 let current_trial = 0; // the current trial number (indexes into trials array above)
 let attempt = 0; // users complete each test twice to account for practice (attemps 0 and 1)
 
+// Target class (position and width)
+class Rectangle {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.width = w;
+    this.height = h;
+  }
+
+  // Draws the target (i.e., a circle)
+  // and its label
+  draw() {
+    // Draw rectangle
+    stroke("blue");
+    noFill();
+    strokeWeight(10);
+    rect(20, 20, 60, 60);
+  }
+}
+
+//Recs list
+let recs = [];
+
 // Target list
 let targets = [];
-
-let ordem = [21, 6, 7, 74, 75,
-12, 22, 13, 1, 2, 39, 38, 73, 59, 60, 77,
-23, 8, 9, 10, 11, 43, 42, 69, 61, 62, 63,
-14, 16, 17, 18, 19, 51, 40, 64, 65, 66, 72,
-20, 24, 3, 25, 26, 45, 48, 67, 71, 76, 70,
-4, 27, 5, 28, 15, 52, 41, 78, 79, 68, 80,
-29, 35, 34, 37, 32, 46, 47, 54, 49, 53, 56, 44,
-30, 33, 31, 36, 57, 50, 58, 55];
-
-
-let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12, 
-  59, 60, 77, 37, 32, 30, 22, 13, 1, 2, 
-  69, 61, 62, 33, 31, 36, 23, 8, 9, 10,
-  63, 64, 65, 54, 49, 53, 11, 14, 16, 17,
-  66, 72, 67, 56, 44, 57, 18, 19, 20, 24,
-  71, 76, 70, 50, 58, 55, 3, 25, 26, 4,
-  78, 79, 68, 80, 46, 47, 27, 5, 28, 15,
-  39, 38, 43, 42, 51, 40, 45, 48, 52, 41];
-
+let order = [
+  21, 6, 7, 59, 60, 12, 22, 13, 1, 2, 39, 38, 77, 69, 61, 62, 23, 8, 9, 10, 11,
+  43, 42, 63, 64, 65, 66, 14, 16, 17, 18, 19, 51, 40, 72, 67, 71, 76, 20, 24, 3,
+  25, 26, 45, 48, 74, 70, 75, 78, 4, 27, 5, 28, 15, 52, 41, 79, 73, 68, 80, 29,
+  35, 34, 37, 32, 46, 47, 54, 49, 53, 56, 44, 30, 33, 31, 36, 57, 50, 58, 55,
+];
 
 // Ensures important data is loaded before the program starts
 function preload() {
@@ -76,6 +85,12 @@ function draw() {
     // The user is interacting with the 6x3 target grid
     background(color(0, 0, 0)); // sets background to black
 
+    // for (var i = 0; i < 1; i++){
+    //   recs[i].draw();
+    // }
+
+    noStroke();
+
     // Print trial count at the top left-corner of the canvas
     textFont("Arial", 16);
     fill(color(255, 255, 255));
@@ -87,9 +102,10 @@ function draw() {
       targets[i].draw();
     }
 
+    fill(color(255, 255, 255));
+
     // Draw the target label to be selected in the current trial
     textFont("Arial", 20);
-    fill(color(255, 255, 255));
     textAlign(CENTER);
     text(legendas.getString(trials[current_trial], 0), width / 2, height - 20);
   }
@@ -106,6 +122,7 @@ function printAndSavePerformance() {
     0,
     100
   );
+  console.log("PENALTY: " + penalty);
   let target_w_penalty = nf(
     test_time / parseFloat(hits + misses) + penalty,
     0,
@@ -226,19 +243,102 @@ function continueTest() {
   draw_targets = true;
 }
 
+//Creates and positions the rectangles
+// function createRecs(target_size, horizontal_gap, vertical_gap){
+//   h_margin = horizontal_gap / (GRID_COLUMNS - 1);
+//   v_margin = vertical_gap / (GRID_ROWS - 1);
+
+//   x_base = 40 + (h_margin);
+//   y_base = 40 + (v_margin);
+
+//   let rec_1 = new Rectangle(
+//     x_base,
+//     y_base,
+//     (h_margin + target_size) * 3 + target_size/4,
+//     (v_margin + target_size) * 1 + target_size/4
+//   )
+//   recs.push(rec_1);
+// }
+
 // Creates and positions the UI targets
 function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
   // for the number of targets minus one
-  h_margin = horizontal_gap / (GRID_COLUMNS - 1);
-  v_margin = vertical_gap / (GRID_ROWS - 1);
+  h_margin = horizontal_gap / 20;
+  v_margin = vertical_gap;
   let legendas_index = 0;
 
+  let skip = 0;
   // Set targets in a 8 x 10 grid
   for (var r = 0; r < GRID_ROWS; r++) {
     for (var c = 0; c < GRID_COLUMNS; c++) {
-      let target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
-      let target_y = (v_margin + target_size) * r + target_size / 2;
+      let target_x;
+      let target_y;
+      if (
+        (c == 0 && r == 0) ||
+        (c == 1 && r == 0) ||
+        (c == 5 && r == 0) ||
+        (c == 6 && r == 0) ||
+        (c == 10 && r == 0) ||
+        (c == 11 && r == 0) ||
+        (c == 9 && r == 0) ||
+        (c == 11 && r == 1) ||
+        (c == 11 && r == 2) ||
+        (c == 11 && r == 3) ||
+        (c == 11 && r == 4) ||
+        (c == 11 && r == 5) ||
+        (c == 0 && r == 7) ||
+        (c == 6 && r == 7) ||
+        (c == 5 && r == 7) ||
+        (c == 11 && r == 7)
+      ) {
+        skip++;
+        continue;
+      }
+      // FRUITS
+      if (c < 5 && r <= 5) {
+        target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+      } else {
+        // MILK
+        if (c < 7 && r <= 5) {
+          target_x =
+            40 + 4 * h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+        } else {
+          // VEGS
+          if (c < 7 && r <= 5) {
+            target_x =
+              40 +
+              8 * h_margin +
+              (h_margin + target_size) * c +
+              target_size / 2;
+          } else {
+            // JUICE
+            if (c < 5 && r > 5) {
+              target_x = 40 + (h_margin + target_size) * c + target_size / 2;
+            } else {
+              // CREAM
+              if (c < 7 && r >= 6) {
+                target_x =
+                  40 +
+                  4 * h_margin +
+                  (h_margin + target_size) * c +
+                  target_size / 2;
+              }
+              // YOURG
+              else {
+                target_x =
+                  40 +
+                  8 * h_margin +
+                  (h_margin + target_size) * c +
+                  target_size / 2;
+              }
+            }
+          }
+        }
+      }
+      target_y = target_size * r + target_size / 2;
+      if (r > 5) target_y += v_margin;
+      if (r <= 5) target_x += target_size / 2 + h_margin;
 
       // Find the appropriate label and ID for this target
       //let legendas_index = c + GRID_COLUMNS * r;
@@ -250,7 +350,8 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
       //let target_label = legendas[order[legendas_index]][0];
       //let target_id = legendas[order[legendas_index]][1];
       //let target_type = legendas[order[legendas_index]][2];
-      let numero = order[legendas_index]-1;
+      console.log("( " + r + "," + c + ")");
+      let numero = order[legendas_index] - 1;
 
       let target_label = legendas.getString(numero, 0);
       let target_id = legendas.getNum(numero, 1);
@@ -287,6 +388,12 @@ function windowResized() {
     let target_size = 2; // sets the target size (will be converted to cm when passed to createTargets)
     let horizontal_gap = screen_width - target_size * GRID_COLUMNS; // empty space in cm across the x-axis (based on 10 targets per row)
     let vertical_gap = screen_height - target_size * GRID_ROWS; // empty space in cm across the y-axis (based on 8 targets per column)
+
+    // createRecs(
+    //   target_size * PPCM,
+    //   horizontal_gap * PPCM - 80,
+    //   vertical_gap * PPCM - 80
+    // );
 
     // Creates and positions the UI targets according to the white space defined above (in cm!)
     // 80 represent some margins around the display (e.g., for text)
