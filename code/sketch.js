@@ -47,31 +47,11 @@ class Label {
     text(this.label, this.x, this.y);
   }
 }
-class Rectangle {
-  constructor(x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.width = w;
-    this.height = h;
-  }
 
-  // Draws the target (i.e., a circle)
-  // and its label
-  draw() {
-    // Draw rectangle
-    stroke("blue");
-    noFill();
-    strokeWeight(10);
-    rect(20, 20, 60, 60);
-  }
-}
-
-//Recs list
-let recs = [];
+let labels = [];
 
 // Target list
 let targets = [];
-let labels = [];
 let order = [
   21, 6, 7, 59, 60, 12, 22, 13, 1, 2, 39, 38, 77, 69, 61, 62, 23, 8, 9, 10, 11,
   43, 42, 63, 64, 65, 66, 14, 16, 17, 18, 19, 51, 40, 72, 67, 71, 76, 20, 24, 3,
@@ -101,10 +81,6 @@ function draw() {
   if (draw_targets && attempt < 2) {
     // The user is interacting with the 6x3 target grid
     background(color(0, 0, 0)); // sets background to black
-
-    // for (var i = 0; i < 1; i++){
-    //   recs[i].draw();
-    // }
 
     noStroke();
 
@@ -264,23 +240,6 @@ function continueTest() {
   draw_targets = true;
 }
 
-//Creates and positions the rectangles
-// function createRecs(target_size, horizontal_gap, vertical_gap){
-//   h_margin = horizontal_gap / (GRID_COLUMNS - 1);
-//   v_margin = vertical_gap / (GRID_ROWS - 1);
-
-//   x_base = 40 + (h_margin);
-//   y_base = 40 + (v_margin);
-
-//   let rec_1 = new Rectangle(
-//     x_base,
-//     y_base,
-//     (h_margin + target_size) * 3 + target_size/4,
-//     (v_margin + target_size) * 1 + target_size/4
-//   )
-//   recs.push(rec_1);
-// }
-
 // Creates and positions the UI targets
 function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
@@ -349,6 +308,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
       target_y = target_size * r + target_size / 2;
       if (r > 5) target_y += v_margin;
       if (r <= 5) target_x += target_size / 2 + h_margin;
+      // unused space
       if (
         (c == 1 && r == 0) ||
         (c == 6 && r == 0) ||
@@ -362,6 +322,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         (c == 11 && r == 5)
       )
         continue;
+      // category's names
       if (
         (c == 0 && r == 0) ||
         (c == 5 && r == 0) ||
@@ -384,18 +345,6 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         continue;
       }
 
-      // Find the appropriate label and ID for this target
-      //let legendas_index = c + GRID_COLUMNS * r;
-
-      //let target_label = legendasS[legendas_index][0];
-      //let target_id = legendasS[legendas_index][1];
-      //let target_type = legendasS[legendas_index][2];
-
-      //let target_label = legendas[order[legendas_index]][0];
-      //let target_id = legendas[order[legendas_index]][1];
-      //let target_type = legendas[order[legendas_index]][2];
-      // console.log("( " + r + "," + c + ")");
-      // console.log(target_x + "<----->" + target_y);
       let numero = order[legendas_index] - 1;
 
       let target_label = legendas.getString(numero, 0);
@@ -433,12 +382,6 @@ function windowResized() {
     let target_size = 2; // sets the target size (will be converted to cm when passed to createTargets)
     let horizontal_gap = screen_width - target_size * GRID_COLUMNS; // empty space in cm across the x-axis (based on 10 targets per row)
     let vertical_gap = screen_height - target_size * GRID_ROWS; // empty space in cm across the y-axis (based on 8 targets per column)
-
-    // createRecs(
-    //   target_size * PPCM,
-    //   horizontal_gap * PPCM - 80,
-    //   vertical_gap * PPCM - 80
-    // );
 
     // Creates and positions the UI targets according to the white space defined above (in cm!)
     // 80 represent some margins around the display (e.g., for text)
