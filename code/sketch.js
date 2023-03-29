@@ -41,10 +41,15 @@ class Label {
   }
 
   draw() {
+    textStyle(BOLD);
+    stroke("white");
+    strokeWeight(5);
     fill(this.color);
-    textFont("Arial", 50);
+    textFont("Arial", 48);
     textAlign(LEFT);
     text(this.label, this.x, this.y);
+    textStyle(NORMAL);
+    strokeWeight(0);
   }
 }
 
@@ -52,21 +57,23 @@ let labels = [];
 
 // Target list
 let targets = [];
-let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12, 
-  59, 60, 77, 37, 32, 30, 22, 13, 1, 2, 
-  69, 61, 62, 33, 31, 36, 23, 8, 9, 10,
-  63, 64, 65, 54, 49, 53, 11, 14, 16, 17,
-  66, 72, 67, 56, 44, 57, 18, 19, 20, 24,
-  71, 76, 70, 50, 58, 55, 3, 25, 26, 4,
-  78, 79, 68, 80, 46, 47, 27, 5, 28, 15,
-  39, 38, 43, 42, 51, 40, 45, 48, 52, 41];
+let order = [21, 6, 7, 59, 60,
+  12, 22, 13, 1, 2, 39, 38, 77, 69, 61, 62,
+  23, 8, 9, 10, 11, 43, 42, 63, 64, 65, 66,
+  14, 16, 17, 18, 19, 51, 40, 72, 67, 71, 76,
+  20, 24, 3, 25, 26, 45, 48, 74, 70, 75, 78,
+  4, 27, 5, 28, 15, 52, 41, 79, 73, 68, 80,
+  29, 35, 34, 37, 32, 46, 47, 54, 49, 53, 56, 44,
+  30, 33, 31, 36, 57, 50, 58, 55];
 
 let rectangles = [];
 let lines_x = [0, 6, 9, 0, 6, 9];
 let lines_y = [0, 0, 0, 7, 7, 7];
 let lines_w = [5, 2, 4, 5, 2, 5];
 let lines_h = [6, 6, 6, 2, 2, 2];
-let line_color = ["blue", "pink", "yellow", "magenta", "red", "white"];
+let line_color = ["#1a1a1a", "#1a1a1a", "#1a1a1a", "#1a1a1a", "#1a1a1a", "#1a1a1a"];
+//let line_color = ["#993d00", "white", "#006600", "#660000", "#600080", "#000066"];
+//let line_color = ["#c6ecc6", "white", "#c6ecc6", "#ffb3b3", "#ffffb3", "#ccccff"];
 
 class Line {
   constructor(x, y, isHorizontal, distance, color) {
@@ -110,8 +117,8 @@ class Rectangle {
       
       push();
       stroke(this.c);
-      fill(this.c)
-      strokeWeight(1.5);
+      fill(this.c);
+      strokeWeight(2);
       rect(this.x, this.y, this.width, this.height, 20)
       pop();
   }
@@ -432,12 +439,12 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
 
   const _labels_names = ["FRUITS", "MILK", "VEGGIE", "JUI", "CREAM", "YOG"];
   const _labels_colors = [
-    color(226, 24, 24),
-    color(114, 47, 55),
-    color(83, 145, 101),
-    color(204, 102, 0),
-    color(150, 111, 214),
-    color(0, 0, 255),
+    "#cc5200",
+    "#1a1a1a",
+    "#267326",
+    "#990000",
+    "#ffa64d",
+    "#000099",
   ];
 
   let skip = 0;
