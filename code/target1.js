@@ -21,12 +21,7 @@ class Target {
   draw() {
     let letterColorByType = createStringDict({
       //MILK//
-      Milk: "white",
-      "Soy Milk": "white",
-      "Oat Milk": "white",
-      "Sour Milk": "white",
-
-      "Sour Cream": "white",
+      
     });
 
     let strokeByName = createStringDict({
@@ -34,14 +29,26 @@ class Target {
       Melon: color(0, 51, 0),
       Watermelon: color(0, 51, 0),
 
-      "Red Beet": "red",
-      "Red Delicious": "red",
-      "Red Grapefruit": "red",
+      "Red Beet": color(153, 0, 0),
+      "Red Delicious": color(153, 0, 0),
+      "Red Grapefruit": color(153, 0, 0),
+      "Red Potato": color(153, 0, 0),
+
+      "0% Milk": "white",
+      "0% Yoghurt": "white",
 
       //"Bell Pepper": "red",
       //"Rocoto Pepper": "red",
       //"Mild Pepper": "red",
-    })
+
+      "Bio Fat Milk": color(0, 51, 153),
+      "Bio Skim Milk": color(0, 51, 153),
+      "Bio Milk": color(0, 51, 153),
+      "Bio Cream": color(0, 51, 153),
+      "Bio Soyghurt": color(0, 51, 153),
+      "Bio Soy Milk": color(0, 51, 153),
+
+    });
 
     let colorsByName = createStringDict({
       
@@ -50,28 +57,23 @@ class Target {
       "Pink Lady": color(153, 0, 0),
       "Red Delicious": color(153, 0, 0),
       "Royal Gala": color(153, 0, 0),
+      "Apple Juice": color(153, 0, 0),
 
       Orange: color(204, 82, 0),
       "Orange Juice": color(204, 82, 0),
-
-      Mango: "orange",
-      "Mango Juice": "orange",
-      "Mango Yoghurt": "orange",
 
       Anjou: color(102, 153, 0),
       Conference: color(102, 153, 0),
       Kaiser: color(102, 153, 0),
       "Pear Yoghurt": color(102, 153, 0),
+      "Pear Juice": color(102, 153, 0),
+
+      Mango: "orange",
+      "Mango Juice": "orange",
+      "Mango Yoghurt": "orange",
 
       "Cherry Juice": color(153, 0, 51),
       "Cherry Yoghurt": color(153, 0, 51),
-
-      "Bio Fat Milk": color(0, 51, 153),
-      "Bio Skim Milk": color(0, 51, 153),
-      "Bio Milk": color(0, 51, 153),
-      "Bio Cream": color(0, 51, 153),
-      "Bio Soyghurt": color(0, 51, 153),
-      "Bio Soy Milk": color(0, 51, 153),
 
       "White Potato": color(102, 51, 0),
       "Red Potato": color(102, 51, 0),
@@ -84,10 +86,10 @@ class Target {
 
 
     // Draw target
-    if (strokeByName.hasKey(this.name)) {
-      stroke(strokeByName.get(this.name)),
-      strokeWeight(5)
-    }
+    if (strokeByName.hasKey(this.name))
+      stroke(strokeByName.get(this.name));
+    if (strokeByName.hasKey(this.name))
+      strokeWeight(5);
     else strokeWeight(0);
   
     if (colorsByName.hasKey(this.name))
@@ -102,8 +104,8 @@ class Target {
     textFont("Arial", 18);
     //fill(color(255, 255, 255));
 
-    if (letterColorByType.hasKey(this.type))
-    fill(color(letterColorByType.get(this.type)));
+    if (letterColorByType.hasKey(this.name))
+    fill(color(letterColorByType.get(this.name)));
     else fill(color(255, 255, 255));
 
     textAlign(CENTER);
