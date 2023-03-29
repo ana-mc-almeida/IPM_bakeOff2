@@ -19,14 +19,13 @@ class Target {
   // Draws the target (i.e., a circle)
   // and its label
   draw() {
-    let letterColorByType = createStringDict({
-      //MILK//
-      Milk: "white",
-      "Soy Milk": "white",
-      "Oat Milk": "white",
-      "Sour Milk": "white",
-
-      "Sour Cream": "white",
+    let letterColorByName = createStringDict({
+      "Bio Fat Milk": color(0, 51, 153),
+      "Bio Skim Milk": color(0, 51, 153),
+      "Bio Milk": color(0, 51, 153),
+      "Bio Cream": color(0, 51, 153),
+      "Bio Soyghurt": color(0, 51, 153),
+      "Bio Soy Milk": color(0, 51, 153),
     });
 
     let strokeByName = createStringDict({
@@ -82,7 +81,6 @@ class Target {
       "Vine Tomato": color(128, 0, 0),
     });
 
-
     // Draw target
     if (strokeByName.hasKey(this.name)) {
       stroke(strokeByName.get(this.name)),
@@ -102,8 +100,8 @@ class Target {
     textFont("Arial", 18);
     //fill(color(255, 255, 255));
 
-    if (letterColorByType.hasKey(this.type))
-    fill(color(letterColorByType.get(this.type)));
+    if (letterColorByName.hasKey(this.name))
+    fill(color(letterColorByName.get(this.name)));
     else fill(color(255, 255, 255));
 
     textAlign(CENTER);
