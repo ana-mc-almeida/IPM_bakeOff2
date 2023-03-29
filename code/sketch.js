@@ -112,7 +112,7 @@ class Rectangle {
       stroke(this.c);
       fill(this.c)
       strokeWeight(1.5);
-      rect(this.x, this.y, this.width, this.height)
+      rect(this.x, this.y, this.width, this.height, 20)
       pop();
   }
 }
