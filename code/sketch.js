@@ -13,7 +13,7 @@ const RECORD_TO_FIREBASE = false; // Set to 'true' to record user results to Fir
 let PPI, PPCM;
 const NUM_OF_TRIALS = 12; // The numbers of trials (i.e., target selections) to be completed
 const GRID_ROWS = 8; // We divide our 80 targets in a 8x10 grid
-const GRID_COLUMNS = 10; // We divide our 80 targets in a 8x10 grid
+const GRID_COLUMNS = 12; // We divide our 80 targets in a 8x10 grid
 let continue_button;
 let legendas; // The item list from the "legendas" CSV
 let legendasS; // The item list from the "legendas" CSV but sorted
@@ -43,18 +43,25 @@ let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12,
   39, 38, 43, 42, 51, 40, 45, 48, 52, 41];
 
 let lines = [];
-let lines_x = [0,0,3,0,0,0,10,3,6,3,4,6];
-let lines_y = [0,1,6,8,7,0,0,0,0,3,6,6];
-let lines_d = [10,3,3,10,10,8,8,6,6,3,1,1];
-let lines_isHorizontal = [true, true, true, true, true, false, false, false, false, true,false,false];
-
+let lines_x = [0, 0, 5, 0, 6, 6, 8, 6, 9, 9, 9, 13, 0, 0, 0, 5, 6, 6, 8, 6, 9, 9, 14, 9];
+let lines_y = [0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 6, 0, 7, 7, 9, 7, 7, 7, 7, 9, 7, 7, 7, 9];
+let lines_d = [5, 6, 6, 5, 2, 6, 6, 2, 4, 6, 4, 6, 2, 5, 5, 2, 2, 2, 2, 2, 5, 2, 2, 5];
+let lines_isHorizontal = [true, false, false, true, 
+                          true, false, false, true, 
+                          true, false, true, false, 
+                          false, true, true, false, 
+                          true, false, false, true, 
+                          true, false, false, true];
+let line_color = ["blue", "blue", "blue", "blue", "pink", "pink", "pink", "blue", "blue", "blue", "blue", "pink", "pink", "pink",
+                  "blue", "blue", "blue", "blue", "pink", "pink", "pink", "blue", "blue", "blue"]
 
 class Line {
-  constructor(x, y, isHorizontal, distance) {
+  constructor(x, y, isHorizontal, distance, color) {
       this.x = x;
       this.y = y;
       this.isHorizontal = isHorizontal;
       this.d = distance;
+      this.c = color
   }
   
   draw() {
@@ -70,7 +77,7 @@ class Line {
       }
       
       push();
-      stroke(255);
+      stroke(this.c);
       strokeWeight(3);
       line(this.x, this.y, x2, y2);
       pop();
@@ -136,6 +143,7 @@ function printAndSavePerformance() {
     0,
     100
   );
+  console.log("PENALTY: " + penalty);
   let target_w_penalty = nf(
     test_time / parseFloat(hits + misses) + penalty,
     0,
@@ -260,17 +268,54 @@ function createLines(target_size, horizontal_gap, vertical_gap) {
   h_margin = horizontal_gap / 20;
   v_margin = vertical_gap / 1.5;
   
-  let distance_to_target_h = h_margin / 2;
+  //let distance_to_target_h = h_margin / 2;
   let distance_to_target_v = v_margin / 2;
   
   for (var i = 0; i < lines_x.length; i++) {
     let x, y;
 
-    if (lines_x[i] <= 5){
+    /*if (lines_x[i] <= 5){
       x = 40 + (h_margin + target_size) * lines_x[i] - distance_to_target_h;
+    }*/
+
+    //FRUITS
+    if (lines_x[i] <= 5 && lines_y[i] <= 6) {
+      x = 40 + (h_margin + target_size) * lines_x[i] + target_size / 2 + h_margin/2;
+      y = 40 + (target_size) * lines_y[i];
     }
 
-    if (lines_x[i] > 5 && lines_x[i] <= 6){
+    if (lines_x[i] > 5 && lines_x[i] <= 8){
+      if (lines_y[i] >= 0 && lines_y[i] <= 6){
+        x = 40 + (h_margin + target_size) * (lines_x[i] - 1) + 4*h_margin + target_size/2 + h_margin/2;
+        y = 40 + (target_size) * lines_y[i];
+      }
+
+      if (lines_y[i] > 6){
+        x = 40 + (h_margin + target_size) * (lines_x[i] - 1) + 4*h_margin - h_margin/2;
+        y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
+      }
+    }
+
+    if (lines_x[i] >= 9){
+      if (lines_y[i] <= 6){
+        x = 40 + (h_margin + target_size) * (lines_x[i] - 2) + 8*h_margin + target_size/2 + h_margin/2;
+        y = 40 + (target_size) * lines_y[i];
+      }
+      
+      if (lines_y[i] > 6){
+        x = 40 + (h_margin + target_size) * (lines_x[i] - 2) + 8*h_margin - h_margin/2;
+        y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
+      }
+    }
+
+    if (lines_x[i] <= 5 && lines_y[i] > 6){
+      x = 40 + (h_margin + target_size) * lines_x[i] - h_margin/2;
+      y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
+    }
+
+    
+
+    /*if (lines_x[i] > 5 && lines_x[i] <= 6){
       x = 40 + (h_margin + target_size) * lines_x[i] + 4 * h_margin - distance_to_target_h;
     }
 
@@ -280,19 +325,19 @@ function createLines(target_size, horizontal_gap, vertical_gap) {
 
     if (lines_y[i] <= 6){
       y = 40 + (target_size)*lines_y[i];
-    }
+    }*/
 
       //let x = 40 + (h_margin + target_size) * lines_x[i] - distance_to_target_h;
       //let y = 40 + (v_margin + target_size) * lines_y[i] - distance_to_target_v;
       let distance;
       if (lines_isHorizontal[i]) {
-          distance = (h_margin + target_size) * lines_d[i];
+          distance = (h_margin + target_size) * lines_d[i] ;
       }
       else {
-          distance = (v_margin + target_size) * lines_d[i];
+          distance = (v_margin + target_size) * lines_d[i] - 2*lines_d[i]*distance_to_target_v;
       }    
       
-      let line = new Line(x, y, lines_isHorizontal[i], distance);
+      let line = new Line(x, y, lines_isHorizontal[i], distance, line_color[i]);
       lines.push(line);
   }
 } 
@@ -301,15 +346,81 @@ function createLines(target_size, horizontal_gap, vertical_gap) {
 function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
   // for the number of targets minus one
-  h_margin = horizontal_gap / (GRID_COLUMNS - 1);
-  v_margin = vertical_gap / (GRID_ROWS - 1);
+  h_margin = horizontal_gap / 20;
+  v_margin = vertical_gap;
   let legendas_index = 0;
 
+  let skip = 0;
   // Set targets in a 8 x 10 grid
   for (var r = 0; r < GRID_ROWS; r++) {
     for (var c = 0; c < GRID_COLUMNS; c++) {
-      let target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
-      let target_y = (v_margin + target_size) * r + target_size / 2;
+      let target_x;
+      let target_y;
+      if (
+        (c == 0 && r == 0) ||
+        (c == 1 && r == 0) ||
+        (c == 5 && r == 0) ||
+        (c == 6 && r == 0) ||
+        (c == 10 && r == 0) ||
+        (c == 11 && r == 0) ||
+        (c == 9 && r == 0) ||
+        (c == 11 && r == 1) ||
+        (c == 11 && r == 2) ||
+        (c == 11 && r == 3) ||
+        (c == 11 && r == 4) ||
+        (c == 11 && r == 5) ||
+        (c == 0 && r == 7) ||
+        (c == 6 && r == 7) ||
+        (c == 5 && r == 7) ||
+        (c == 11 && r == 7)
+      ) {
+        skip++;
+        continue;
+      }
+      // FRUITS
+      if (c < 5 && r <= 5) {
+        target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+      } else {
+        // MILK
+        if (c < 7 && r <= 5) {
+          target_x =
+            40 + 4 * h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+        } else {
+          // VEGS
+          if (c < 7 && r <= 5) {
+            target_x =
+              40 +
+              8 * h_margin +
+              (h_margin + target_size) * c +
+              target_size / 2;
+          } else {
+            // JUICE
+            if (c < 5 && r > 5) {
+              target_x = 40 + (h_margin + target_size) * c + target_size / 2;
+            } else {
+              // CREAM
+              if (c < 7 && r >= 6) {
+                target_x =
+                  40 +
+                  4 * h_margin +
+                  (h_margin + target_size) * c +
+                  target_size / 2;
+              }
+              // YOURG
+              else {
+                target_x =
+                  40 +
+                  8 * h_margin +
+                  (h_margin + target_size) * c +
+                  target_size / 2;
+              }
+            }
+          }
+        }
+      }
+      target_y = target_size * r + target_size / 2;
+      if (r > 5) target_y += v_margin;
+      if (r <= 5) target_x += target_size / 2 + h_margin;
 
       // Find the appropriate label and ID for this target
       //let legendas_index = c + GRID_COLUMNS * r;
@@ -321,7 +432,8 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
       //let target_label = legendas[order[legendas_index]][0];
       //let target_id = legendas[order[legendas_index]][1];
       //let target_type = legendas[order[legendas_index]][2];
-      let numero = order[legendas_index]-1;
+      console.log("( " + r + "," + c + ")");
+      let numero = order[legendas_index] - 1;
 
       let target_label = legendas.getString(numero, 0);
       let target_id = legendas.getNum(numero, 1);

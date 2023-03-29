@@ -4,6 +4,7 @@ class Target {
     this.x = x;
     this.y = y;
     this.width = w;
+    this.name = l;
     this.label = l.replace(" ", "\n");
     this.id = id;
     this.type = t;
@@ -18,86 +19,74 @@ class Target {
   // Draws the target (i.e., a circle)
   // and its label
   draw() {
-    let colorsByType = createStringDict({
-      
-      //FRUITS//
-      Apple: color(204,102,0),
-      Avocado: color(204,102,0),
-      Banana: color(204,102,0),
-      Kiwi: color(204,102,0),
-      Lemon: color(204,102,0),
-      Lime: color(204,102,0),
-      Mango: color(204,102,0),
-      Melon: color(204,102,0),
-      Nectarine: color(204,102,0),
-      Orange: color(204,102,0),
-      Papaya: color(204,102,0),
-      "Passion Fruit": color(204,102,0),            //ver como fazer isto para este que tem dois
-      Pear: color(204,102,0),
-      Peach: color(204,102,0),
-      Pineapple: color(204,102,0),
-      Plum: color(204,102,0),
-      Pomegranate: color(204,102,0),
-      "Red Grapefruit": color(204,102,0),            //ver como fazer isto para este que tem dois
-      Satsumas: color(204,102,0),
-
-      //JUICE//
-      Juice: color(200,0,0), // count = 9
-
+    let letterColorByType = createStringDict({
       //MILK//
-      Milk: "white", // count = 6
+      Milk: "white",
       "Soy Milk": "white",
       "Oat Milk": "white",
       "Sour Milk": "white",
 
-
-      //CREAM//
-      "Sour Cream": color(255,255,153),
-
-      //YOGHURT//
-      Yoghurt: color(0,0,255),
-      Oatghurt: color(0,0,255),
-      Soyghurt: color(0,0,255),
-
-
-      //VEGETABLES//
-      Asparagus: color(51,102,0),
-      Aubergine: color(51,102,0),
-      Cabbage: color(51,102,0),
-      Carrots: color(51,102,0),
-      Cucumber: color(51,102,0),
-      Garlic: color(51,102,0),
-      Ginger: color(51,102,0),
-      Leek: color(51,102,0),
-      Mushroom: color(51,102,0),
-      Onion: color(51,102,0),
-      Pepper: color(51,102,0),
-      "Red Beet": color(51,102,0),
-      Tomato: color(51,102,0),
-      Zucchini: color(51,102,0),
-
-      //POTATOS//
-      Potato: color(107,65,33),
-
+      "Sour Cream": "white",
     });
 
-    let letterColorByType = createStringDict({
-      //MILK//
-      Milk: "black",
-      "Soy Milk": "black",
-      "Oat Milk": "black",
-      "Sour Milk": "black",
+    let strokeByName = createStringDict({
+      "Pink Lady": "pink",
 
-      "Sour Cream": "black",
+      "Red Beet": "red",
+      "Red Delicious": "red",
+      "Red Grapefruit": "red",
+    })
+
+    let colorsByName = createStringDict({
+      
+      Golden: color(153, 0, 0),
+      "Granny Smith": color(153, 0, 0),
+      "Pink Lady": color(153, 0, 0),
+      "Red Delicious": color(153, 0, 0),
+      "Royal Gala": color(153, 0, 0),
+
+      Orange: color(204, 82, 0),
+      "Orange Juice": color(204, 82, 0),
+
+      Mango: "orange",
+      "Mango Juice": "orange",
+      "Mango Yoghurt": "orange",
+
+      Anjou: color(102, 153, 0),
+      Conference: color(102, 153, 0),
+      Kaiser: color(102, 153, 0),
+      "Pear Yoghurt": color(102, 153, 0),
+
+      "Cherry Juice": color(153, 0, 51),
+      "Cherry Yoghurt": color(153, 0, 51),
+
+      "Bio Fat Milk": color(0, 51, 153),
+      "Bio Skim Milk": color(0, 51, 153),
+      "Bio Milk": color(0, 51, 153),
+      "Bio Cream": color(0, 51, 153),
+      "Bio Soyghurt": color(0, 51, 153),
+      "Bio Soy Milk": color(0, 51, 153),
+
+      "White Potato": color(102, 51, 0),
+      "Red Potato": color(102, 51, 0),
+      "Sweet Potato": color(102, 51, 0),
     });
+
 
     // Draw target
-    if (colorsByType.hasKey(this.type))
-      fill(color(colorsByType.get(this.type)));
+    if (strokeByName.hasKey(this.name)) {
+      stroke(strokeByName.get(this.name)),
+      strokeWeight(4)
+    }
+    else strokeWeight(0);
+  
+    if (colorsByName.hasKey(this.name))
+      fill(color(colorsByName.get(this.name)));
     else fill(color(155, 155, 155));
     circle(this.x, this.y, this.width);
 
     // Draw label
+    strokeWeight(0);
     textFont("Arial", 18);
     //fill(color(255, 255, 255));
 
