@@ -61,18 +61,12 @@ let order = [74, 75, 73, 29, 35, 34, 21, 6, 7, 12,
   78, 79, 68, 80, 46, 47, 27, 5, 28, 15,
   39, 38, 43, 42, 51, 40, 45, 48, 52, 41];
 
-let lines = [];
-let lines_x = [0, 0, 5, 0, 6, 6, 8, 6, 9, 9, 9, 13, 0, 0, 0, 5, 6, 6, 8, 6, 9, 9, 14, 9];
-let lines_y = [0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 6, 0, 7, 7, 9, 7, 7, 7, 7, 9, 7, 7, 7, 9];
-let lines_d = [5, 6, 6, 5, 2, 6, 6, 2, 4, 6, 4, 6, 2, 5, 5, 2, 2, 2, 2, 2, 5, 2, 2, 5];
-let lines_isHorizontal = [true, false, false, true, 
-                          true, false, false, true, 
-                          true, false, true, false, 
-                          false, true, true, false, 
-                          true, false, false, true, 
-                          true, false, false, true];
-let line_color = ["blue", "blue", "blue", "blue", "pink", "pink", "pink", "blue", "blue", "blue", "blue", "pink", "pink", "pink",
-                  "blue", "blue", "blue", "blue", "pink", "pink", "pink", "blue", "blue", "blue"]
+let rectangles = [];
+let lines_x = [0, 6, 9, 0, 6, 9];
+let lines_y = [0, 0, 0, 7, 7, 7];
+let lines_w = [5, 2, 4, 5, 2, 5];
+let lines_h = [6, 6, 6, 2, 2, 2];
+let line_color = ["blue", "pink", "yellow", "magenta", "red", "white"];
 
 class Line {
   constructor(x, y, isHorizontal, distance, color) {
@@ -103,6 +97,26 @@ class Line {
   }
 }
 
+class Rectangle {
+  constructor(x, y, width, height, color) {
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+      this.c = color
+  }
+  
+  draw() {
+      
+      push();
+      stroke(this.c);
+      fill(this.c)
+      strokeWeight(1.5);
+      rect(this.x, this.y, this.width, this.height)
+      pop();
+  }
+}
+
 
 // Ensures important data is loaded before the program starts
 function preload() {
@@ -127,7 +141,7 @@ function draw() {
     // The user is interacting with the 6x3 target grid
     background(color(0, 0, 0)); // sets background to black
 
-    for (var j = 0; j < lines.length; j++) lines[j].draw();
+    for (var j = 0; j < rectangles.length; j++) rectangles[j].draw();
     
     noStroke();
     
@@ -287,6 +301,7 @@ function continueTest() {
   draw_targets = true;
 }
 
+/*
 function createLines(target_size, horizontal_gap, vertical_gap) {
   h_margin = horizontal_gap / 20;
   v_margin = vertical_gap / 1.5;
@@ -299,7 +314,7 @@ function createLines(target_size, horizontal_gap, vertical_gap) {
 
     /*if (lines_x[i] <= 5){
       x = 40 + (h_margin + target_size) * lines_x[i] - distance_to_target_h;
-    }*/
+    }
 
     //FRUITS
     if (lines_x[i] <= 5 && lines_y[i] <= 6) {
@@ -336,34 +351,76 @@ function createLines(target_size, horizontal_gap, vertical_gap) {
       y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
     }
 
+    let distance;
+    if (lines_isHorizontal[i]) {
+        distance = (h_margin + target_size) * lines_d[i] ;
+    }
+    else {
+        distance = (v_margin + target_size) * lines_d[i] - 2*lines_d[i]*distance_to_target_v;
+    }    
     
+    let line = new Line(x, y, lines_isHorizontal[i], distance, line_color[i]);
+    lines.push(line);
+  }
+} */
 
-    /*if (lines_x[i] > 5 && lines_x[i] <= 6){
-      x = 40 + (h_margin + target_size) * lines_x[i] + 4 * h_margin - distance_to_target_h;
+function createRectangles(target_size, horizontal_gap, vertical_gap) {
+  h_margin = horizontal_gap / 20;
+  v_margin = vertical_gap / 1.5;
+  
+  //let distance_to_target_h = h_margin / 2;
+  let distance_to_target_v = v_margin / 2;
+  
+  for (var i = 0; i < lines_x.length; i++) {
+    let x, y;
+
+    //FRUITS
+    if (lines_x[i] <= 5 && lines_y[i] <= 6) {
+      x = 40 + (h_margin + target_size) * lines_x[i] + target_size / 2 + h_margin/2;
+      y = 40 + (target_size) * lines_y[i];
     }
 
-    if (lines_x[i] > 6){
-      x = 40 + (h_margin + target_size) * lines_x[i] + 8 * h_margin - distance_to_target_h
-    }
-
-    if (lines_y[i] <= 6){
-      y = 40 + (target_size)*lines_y[i];
-    }*/
-
-      //let x = 40 + (h_margin + target_size) * lines_x[i] - distance_to_target_h;
-      //let y = 40 + (v_margin + target_size) * lines_y[i] - distance_to_target_v;
-      let distance;
-      if (lines_isHorizontal[i]) {
-          distance = (h_margin + target_size) * lines_d[i] ;
+    if (lines_x[i] > 5 && lines_x[i] <= 8){
+      if (lines_y[i] >= 0 && lines_y[i] <= 6){
+        x = 40 + (h_margin + target_size) * (lines_x[i] - 1) + 4*h_margin + target_size/2 + h_margin/2;
+        y = 40 + (target_size) * lines_y[i];
       }
-      else {
-          distance = (v_margin + target_size) * lines_d[i] - 2*lines_d[i]*distance_to_target_v;
-      }    
+
+      if (lines_y[i] > 6){
+        x = 40 + (h_margin + target_size) * (lines_x[i] - 1) + 4*h_margin - h_margin/2;
+        y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
+      }
+    }
+
+    if (lines_x[i] >= 9){
+      if (lines_y[i] <= 6){
+        x = 40 + (h_margin + target_size) * (lines_x[i] - 2) + 8*h_margin + target_size/2 + h_margin/2;
+        y = 40 + (target_size) * lines_y[i];
+      }
       
-      let line = new Line(x, y, lines_isHorizontal[i], distance, line_color[i]);
-      lines.push(line);
+      if (lines_y[i] > 6){
+        x = 40 + (h_margin + target_size) * (lines_x[i] - 2) + 8*h_margin - h_margin/2;
+        y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
+      }
+    }
+
+    if (lines_x[i] <= 5 && lines_y[i] > 6){
+      x = 40 + (h_margin + target_size) * lines_x[i] - h_margin/2;
+      y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
+    }
+
+    let width, height;
+    width = (h_margin + target_size) * lines_w[i] ;
+    height = (v_margin + target_size) * lines_h[i] - 2*lines_h[i]*distance_to_target_v;  
+    
+    let rectangle = new Rectangle(x, y, width, height, line_color[i]);
+    rectangles.push(rectangle);
   }
 } 
+
+
+
+
 
 // Creates and positions the UI targets
 function createTargets(target_size, horizontal_gap, vertical_gap) {
@@ -515,7 +572,13 @@ function windowResized() {
       vertical_gap * PPCM - 80
     );
 
-    createLines(
+    /*createLines(
+      target_size * PPCM, 
+      horizontal_gap * PPCM - 80, 
+      vertical_gap * PPCM - 80
+    );*/
+
+    createRectangles(
       target_size * PPCM, 
       horizontal_gap * PPCM - 80, 
       vertical_gap * PPCM - 80
