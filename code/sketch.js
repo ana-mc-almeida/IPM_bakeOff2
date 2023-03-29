@@ -31,6 +31,22 @@ let current_trial = 0; // the current trial number (indexes into trials array ab
 let attempt = 0; // users complete each test twice to account for practice (attemps 0 and 1)
 
 // Target class (position and width)
+
+class Label {
+  constructor(l, x, y, c) {
+    this.label = l;
+    this.x = x;
+    this.y = y;
+    this.color = c;
+  }
+
+  draw() {
+    fill(this.color);
+    textFont("Arial", 50);
+    textAlign(LEFT);
+    text(this.label, this.x, this.y);
+  }
+}
 class Rectangle {
   constructor(x, y, w, h) {
     this.x = x;
@@ -55,6 +71,7 @@ let recs = [];
 
 // Target list
 let targets = [];
+let labels = [];
 let order = [
   21, 6, 7, 59, 60, 12, 22, 13, 1, 2, 39, 38, 77, 69, 61, 62, 23, 8, 9, 10, 11,
   43, 42, 63, 64, 65, 66, 14, 16, 17, 18, 19, 51, 40, 72, 67, 71, 76, 20, 24, 3,
@@ -73,7 +90,7 @@ function setup() {
   frameRate(60); // frame rate (DO NOT CHANGE!)
 
   legendasS = legendas.getArray().sort();
-  console.log(legendasS);
+  // console.log(legendasS);
 
   randomizeTrials(); // randomize the trial order at the start of execution
   drawUserIDScreen(); // draws the user start-up screen (student ID and display size)
@@ -102,8 +119,12 @@ function draw() {
       targets[i].draw();
     }
 
-    fill(color(255, 255, 255));
+    // Draw all labels
+    for (var i = 0; i < 6; i++) {
+      labels[i].draw();
+    }
 
+    fill(color(255, 255, 255));
     // Draw the target label to be selected in the current trial
     textFont("Arial", 20);
     textAlign(CENTER);
@@ -122,7 +143,7 @@ function printAndSavePerformance() {
     0,
     100
   );
-  console.log("PENALTY: " + penalty);
+  // console.log("PENALTY: " + penalty);
   let target_w_penalty = nf(
     test_time / parseFloat(hits + misses) + penalty,
     0,
@@ -265,8 +286,18 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
   // for the number of targets minus one
   h_margin = horizontal_gap / 20;
-  v_margin = vertical_gap / 1.5;
+  v_margin = vertical_gap;
   let legendas_index = 0;
+
+  const _labels_names = ["FRUITS", "MILK", "VEGES", "JUI", "CREAM", "YOG"];
+  const _labels_colors = [
+    color(226, 24, 24),
+    color(114, 47, 55),
+    color(83, 145, 101),
+    color(204, 102, 0),
+    color(150, 111, 214),
+    color(0, 0, 255),
+  ];
 
   let skip = 0;
   // Set targets in a 8 x 10 grid
@@ -274,27 +305,6 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
     for (var c = 0; c < GRID_COLUMNS; c++) {
       let target_x;
       let target_y;
-      if (
-        (c == 0 && r == 0) ||
-        (c == 1 && r == 0) ||
-        (c == 5 && r == 0) ||
-        (c == 6 && r == 0) ||
-        (c == 10 && r == 0) ||
-        (c == 11 && r == 0) ||
-        (c == 9 && r == 0) ||
-        (c == 11 && r == 1) ||
-        (c == 11 && r == 2) ||
-        (c == 11 && r == 3) ||
-        (c == 11 && r == 4) ||
-        (c == 11 && r == 5) ||
-        (c == 0 && r == 7) ||
-        (c == 6 && r == 7) ||
-        (c == 5 && r == 7) ||
-        (c == 11 && r == 7)
-      ) {
-        skip++;
-        continue;
-      }
       // FRUITS
       if (c < 5 && r <= 5) {
         target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
@@ -305,7 +315,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
             40 + 4 * h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
         } else {
           // VEGS
-          if (c < 7 && r <= 5) {
+          if (r <= 5) {
             target_x =
               40 +
               8 * h_margin +
@@ -339,6 +349,40 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
       target_y = target_size * r + target_size / 2;
       if (r > 5) target_y += v_margin;
       if (r <= 5) target_x += target_size / 2 + h_margin;
+      if (
+        (c == 1 && r == 0) ||
+        (c == 6 && r == 0) ||
+        (c == 10 && r == 0) ||
+        (c == 6 && r == 7) ||
+        (c == 11 && r == 0) ||
+        (c == 11 && r == 1) ||
+        (c == 11 && r == 2) ||
+        (c == 11 && r == 3) ||
+        (c == 11 && r == 4) ||
+        (c == 11 && r == 5)
+      )
+        continue;
+      if (
+        (c == 0 && r == 0) ||
+        (c == 5 && r == 0) ||
+        (c == 9 && r == 0) ||
+        (c == 0 && r == 7) ||
+        (c == 5 && r == 7) ||
+        (c == 11 && r == 7)
+      ) {
+        target_x -= target_size / 2;
+        target_y += target_size / 1.5;
+        console.log(target_x + "---" + target_y);
+        const label = new Label(
+          _labels_names[skip],
+          target_x,
+          target_y,
+          _labels_colors[skip]
+        );
+        labels.push(label);
+        skip++;
+        continue;
+      }
 
       // Find the appropriate label and ID for this target
       //let legendas_index = c + GRID_COLUMNS * r;
@@ -350,7 +394,8 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
       //let target_label = legendas[order[legendas_index]][0];
       //let target_id = legendas[order[legendas_index]][1];
       //let target_type = legendas[order[legendas_index]][2];
-      console.log("( " + r + "," + c + ")");
+      // console.log("( " + r + "," + c + ")");
+      // console.log(target_x + "<----->" + target_y);
       let numero = order[legendas_index] - 1;
 
       let target_label = legendas.getString(numero, 0);
