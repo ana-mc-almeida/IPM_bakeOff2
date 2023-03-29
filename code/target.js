@@ -19,22 +19,27 @@ class Target {
   // Draws the target (i.e., a circle)
   // and its label
   draw() {
-    let letterColorByType = createStringDict({
-      //MILK//
-      Milk: "white",
-      "Soy Milk": "white",
-      "Oat Milk": "white",
-      "Sour Milk": "white",
-
-      "Sour Cream": "white",
+    let letterColorByName = createStringDict({
+      "Bio Fat Milk": color(0, 51, 153),
+      "Bio Skim Milk": color(0, 51, 153),
+      "Bio Milk": color(0, 51, 153),
+      "Bio Cream": color(0, 51, 153),
+      "Bio Soyghurt": color(0, 51, 153),
+      "Bio Soy Milk": color(0, 51, 153),
     });
 
     let strokeByName = createStringDict({
-      "Pink Lady": "pink",
+      "Galia Melon": color(0, 51, 0),
+      Melon: color(0, 51, 0),
+      Watermelon: color(0, 51, 0),
 
       "Red Beet": "red",
       "Red Delicious": "red",
       "Red Grapefruit": "red",
+
+      //"Bell Pepper": "red",
+      //"Rocoto Pepper": "red",
+      //"Mild Pepper": "red",
     })
 
     let colorsByName = createStringDict({
@@ -70,19 +75,24 @@ class Target {
       "White Potato": color(102, 51, 0),
       "Red Potato": color(102, 51, 0),
       "Sweet Potato": color(102, 51, 0),
-    });
 
+      "Beef Tomato": color(128, 0, 0),
+      "Tomato": color(128, 0, 0),
+      "Vine Tomato": color(128, 0, 0),
+    });
 
     // Draw target
     if (strokeByName.hasKey(this.name)) {
       stroke(strokeByName.get(this.name)),
-      strokeWeight(4)
+      strokeWeight(5)
     }
     else strokeWeight(0);
   
     if (colorsByName.hasKey(this.name))
       fill(color(colorsByName.get(this.name)));
     else fill(color(155, 155, 155));
+
+    //fill(color(155, 155, 155));
     circle(this.x, this.y, this.width);
 
     // Draw label
@@ -90,8 +100,8 @@ class Target {
     textFont("Arial", 18);
     //fill(color(255, 255, 255));
 
-    if (letterColorByType.hasKey(this.type))
-    fill(color(letterColorByType.get(this.type)));
+    if (letterColorByName.hasKey(this.name))
+    fill(color(letterColorByName.get(this.name)));
     else fill(color(255, 255, 255));
 
     textAlign(CENTER);
