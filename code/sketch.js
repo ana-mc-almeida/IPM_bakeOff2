@@ -57,73 +57,75 @@ let labels = [];
 
 // Target list
 let targets = [];
-let order = [21, 6, 7, 59, 60,
-  12, 22, 13, 1, 2, 39, 38, 77, 69, 61, 62,
-  23, 8, 9, 10, 11, 43, 42, 63, 64, 65, 66,
-  14, 16, 17, 18, 19, 51, 40, 72, 67, 71, 76,
-  20, 24, 3, 25, 26, 45, 48, 74, 70, 75, 78,
-  4, 27, 5, 28, 15, 52, 41, 79, 73, 68, 80,
-  29, 35, 34, 37, 32, 46, 47, 54, 49, 53, 56, 44,
-  30, 33, 31, 36, 57, 50, 58, 55];
+let order = [
+  21, 6, 7, 59, 60, 12, 22, 13, 1, 2, 39, 38, 77, 69, 61, 62, 23, 8, 9, 10, 11,
+  43, 42, 63, 64, 65, 66, 14, 16, 17, 18, 19, 51, 40, 72, 67, 71, 76, 20, 24, 3,
+  25, 26, 45, 48, 74, 70, 75, 78, 4, 27, 5, 28, 15, 52, 41, 79, 73, 68, 80, 29,
+  35, 34, 37, 32, 46, 47, 54, 49, 53, 56, 44, 30, 33, 31, 36, 57, 50, 58, 55,
+];
 
 let rectangles = [];
 let lines_x = [0, 6, 9, 0, 6, 9];
 let lines_y = [0, 0, 0, 7, 7, 7];
 let lines_w = [5, 2, 4, 5, 2, 5];
 let lines_h = [6, 6, 6, 2, 2, 2];
-let line_color = ["#1a1a1a", "#1a1a1a", "#1a1a1a", "#1a1a1a", "#1a1a1a", "#1a1a1a"];
+let line_color = [
+  "#1a1a1a",
+  "#1a1a1a",
+  "#1a1a1a",
+  "#1a1a1a",
+  "#1a1a1a",
+  "#1a1a1a",
+];
 //let line_color = ["#993d00", "white", "#006600", "#660000", "#600080", "#000066"];
 //let line_color = ["#c6ecc6", "white", "#c6ecc6", "#ffb3b3", "#ffffb3", "#ccccff"];
 
 class Line {
   constructor(x, y, isHorizontal, distance, color) {
-      this.x = x;
-      this.y = y;
-      this.isHorizontal = isHorizontal;
-      this.d = distance;
-      this.c = color
+    this.x = x;
+    this.y = y;
+    this.isHorizontal = isHorizontal;
+    this.d = distance;
+    this.c = color;
   }
-  
+
   draw() {
-      let x2;
-      let y2;
-      if (this.isHorizontal) {
-          x2 = this.x + this.d;
-          y2 = this.y;
-      }
-      else {
-          x2 = this.x;
-          y2 = this.y + this.d;
-      }
-      
-      push();
-      stroke(this.c);
-      strokeWeight(3);
-      line(this.x, this.y, x2, y2);
-      pop();
+    let x2;
+    let y2;
+    if (this.isHorizontal) {
+      x2 = this.x + this.d;
+      y2 = this.y;
+    } else {
+      x2 = this.x;
+      y2 = this.y + this.d;
+    }
+
+    push();
+    stroke(this.c);
+    strokeWeight(3);
+    line(this.x, this.y, x2, y2);
+    pop();
   }
 }
 
 class Rectangle {
   constructor(x, y, width, height, color) {
-      this.x = x;
-      this.y = y;
-      this.width = width;
-      this.height = height;
-      this.c = color
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.c = color;
   }
-  
+
   draw() {
-      
-      push();
-      stroke(this.c);
-      fill(this.c);
-      strokeWeight(2);
-      rect(this.x, this.y, this.width, this.height, 20)
-      pop();
+    push();
+    stroke(this.c);
+    fill(this.c);
+    strokeWeight(2);
+    rect(this.x, this.y, this.width, this.height, 20);
+    pop();
   }
 }
-
 
 // Ensures important data is loaded before the program starts
 function preload() {
@@ -149,9 +151,9 @@ function draw() {
     background(color(0, 0, 0)); // sets background to black
 
     for (var j = 0; j < rectangles.length; j++) rectangles[j].draw();
-    
+
     noStroke();
-    
+
     // Print trial count at the top left-corner of the canvas
     textFont("Arial", 16);
     fill(color(255, 255, 255));
@@ -374,66 +376,87 @@ function createLines(target_size, horizontal_gap, vertical_gap) {
 function createRectangles(target_size, horizontal_gap, vertical_gap) {
   h_margin = horizontal_gap / 20;
   v_margin = vertical_gap / 1.5;
-  
+
   //let distance_to_target_h = h_margin / 2;
   let distance_to_target_v = v_margin / 2;
-  
+
   for (var i = 0; i < lines_x.length; i++) {
     let x, y;
 
     //FRUITS
     if (lines_x[i] <= 5 && lines_y[i] <= 6) {
-      x = 40 + (h_margin + target_size) * lines_x[i] + target_size / 2 + h_margin/2;
-      y = 40 + (target_size) * lines_y[i];
+      x =
+        40 +
+        (h_margin + target_size) * lines_x[i] +
+        target_size / 2 +
+        h_margin / 2;
+      y = 40 + target_size * lines_y[i];
     }
 
-    if (lines_x[i] > 5 && lines_x[i] <= 8){
-      if (lines_y[i] >= 0 && lines_y[i] <= 6){
-        x = 40 + (h_margin + target_size) * (lines_x[i] - 1) + 4*h_margin + target_size/2 + h_margin/2;
-        y = 40 + (target_size) * lines_y[i];
+    if (lines_x[i] > 5 && lines_x[i] <= 8) {
+      if (lines_y[i] >= 0 && lines_y[i] <= 6) {
+        x =
+          40 +
+          (h_margin + target_size) * (lines_x[i] - 1) +
+          4 * h_margin +
+          target_size / 2 +
+          h_margin / 2;
+        y = 40 + target_size * lines_y[i];
       }
 
-      if (lines_y[i] > 6){
-        x = 40 + (h_margin + target_size) * (lines_x[i] - 1) + 4*h_margin - h_margin/2;
-        y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
+      if (lines_y[i] > 6) {
+        x =
+          40 +
+          (h_margin + target_size) * (lines_x[i] - 1) +
+          4 * h_margin -
+          h_margin / 2;
+        y = 40 + target_size * (lines_y[i] - 1) + vertical_gap;
       }
     }
 
-    if (lines_x[i] >= 9){
-      if (lines_y[i] <= 6){
-        x = 40 + (h_margin + target_size) * (lines_x[i] - 2) + 8*h_margin + target_size/2 + h_margin/2;
-        y = 40 + (target_size) * lines_y[i];
+    if (lines_x[i] >= 9) {
+      if (lines_y[i] <= 6) {
+        x =
+          40 +
+          (h_margin + target_size) * (lines_x[i] - 2) +
+          8 * h_margin +
+          target_size / 2 +
+          h_margin / 2;
+        y = 40 + target_size * lines_y[i];
       }
-      
-      if (lines_y[i] > 6){
-        x = 40 + (h_margin + target_size) * (lines_x[i] - 2) + 8*h_margin - h_margin/2;
-        y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
+
+      if (lines_y[i] > 6) {
+        x =
+          40 +
+          (h_margin + target_size) * (lines_x[i] - 2) +
+          8 * h_margin -
+          h_margin / 2;
+        y = 40 + target_size * (lines_y[i] - 1) + vertical_gap;
       }
     }
 
-    if (lines_x[i] <= 5 && lines_y[i] > 6){
-      x = 40 + (h_margin + target_size) * lines_x[i] - h_margin/2;
-      y = 40 + (target_size) * (lines_y[i] - 1) + vertical_gap;
+    if (lines_x[i] <= 5 && lines_y[i] > 6) {
+      x = 40 + (h_margin + target_size) * lines_x[i] - h_margin / 2;
+      y = 40 + target_size * (lines_y[i] - 1) + vertical_gap;
     }
 
     let width, height;
-    width = (h_margin + target_size) * lines_w[i] ;
-    height = (v_margin + target_size) * lines_h[i] - 2*lines_h[i]*distance_to_target_v;  
-    
+    width = (h_margin + target_size) * lines_w[i];
+    height =
+      (v_margin + target_size) * lines_h[i] -
+      2 * lines_h[i] * distance_to_target_v;
+
     let rectangle = new Rectangle(x, y, width, height, line_color[i]);
     rectangles.push(rectangle);
   }
-} 
-
-
-
-
+}
 
 // Creates and positions the UI targets
 function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
   // for the number of targets minus one
-  h_margin = horizontal_gap / 20;
+  h_margin = horizontal_gap / 32;
+  let big_h_margin = 3 * h_margin;
   v_margin = vertical_gap;
   let legendas_index = 0;
 
@@ -453,86 +476,301 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
     for (var c = 0; c < GRID_COLUMNS; c++) {
       let target_x;
       let target_y;
-      // FRUITS
-      if (c < 5 && r <= 5) {
-        target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
-      } else {
-        // MILK
-        if (c < 7 && r <= 5) {
+
+      const n = r * 12 + c;
+      console.log(n);
+      switch (n) {
+        // primeira linha A
+        case 0:
+        case 1:
+        case 2:
+          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        // primeira linha B
+        case 3:
+        case 4:
           target_x =
-            40 + 4 * h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
-        } else {
-          // VEGS
-          if (r <= 5) {
-            target_x =
-              40 +
-              8 * h_margin +
-              (h_margin + target_size) * c +
-              target_size / 2;
-          } else {
-            // JUICE
-            if (c < 5 && r > 5) {
-              target_x = 40 + (h_margin + target_size) * c + target_size / 2;
-            } else {
-              // CREAM
-              if (c < 7 && r >= 6) {
-                target_x =
-                  40 +
-                  4 * h_margin +
-                  (h_margin + target_size) * c +
-                  target_size / 2;
-              }
-              // YOURG
-              else {
-                target_x =
-                  40 +
-                  8 * h_margin +
-                  (h_margin + target_size) * c +
-                  target_size / 2;
-              }
-            }
-          }
-        }
+            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        // primeira linha BIO
+        case 5:
+        case 6:
+        case 7:
+          target_x =
+            40 +
+            2 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        //primeira linha C
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+          target_x =
+            40 +
+            3 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        // segunda linha A
+        case 12:
+        case 13:
+          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        // segunda linha B
+        case 15:
+          target_x =
+            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        // segunda linha BIO
+        case 17:
+        case 18:
+        case 19:
+          target_x =
+            40 +
+            2 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        //segunda linha C
+        case 20:
+        case 21:
+        case 22:
+          target_x =
+            40 +
+            3 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 24:
+          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        // segunda linha B
+        case 25:
+        case 26:
+        case 27:
+          target_x =
+            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 28:
+          target_x =
+            40 +
+            2 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 29:
+        case 30:
+          target_x =
+            40 +
+            3 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 31:
+        case 32:
+        case 33:
+        case 34:
+          target_x =
+            40 +
+            4 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 35:
+          target_x =
+            40 +
+            5 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 36:
+          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 37:
+        case 38:
+          target_x =
+            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 40:
+          target_x =
+            40 +
+            2 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 41:
+          target_x =
+            40 +
+            3 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 43:
+        case 44:
+        case 45:
+          target_x =
+            40 +
+            4 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 48:
+        case 49:
+          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 50:
+        case 51:
+        case 52:
+        case 53:
+        case 54:
+        case 55:
+          target_x =
+            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 56:
+        case 57:
+        case 58:
+          target_x =
+            40 +
+            2 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+
+        case 60:
+        case 61:
+          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 62:
+        case 63:
+        case 64:
+        case 65:
+        case 66:
+          target_x =
+            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 68:
+        case 69:
+        case 70:
+          target_x =
+            40 +
+            2 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 72:
+        case 73:
+        case 74:
+        case 75:
+          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 76:
+          target_x =
+            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 77:
+          target_x =
+            40 +
+            2 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 78:
+          target_x =
+            40 +
+            3 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 79:
+          target_x =
+            40 +
+            4 * big_h_margin +
+            +(h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 80:
+          target_x =
+            40 +
+            5 * big_h_margin +
+            +(h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 81:
+          target_x =
+            40 +
+            6 * big_h_margin +
+            +(h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 84:
+        case 85:
+        case 86:
+        case 87:
+          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
+        case 89:
+          target_x =
+            40 +
+            2 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 90:
+          target_x =
+            40 +
+            3 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 91:
+          target_x =
+            40 +
+            4 * big_h_margin +
+            +(h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 93:
+          target_x =
+            40 +
+            6 * big_h_margin +
+            +(h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        default: // give it some margin from the left border
+          target_x =
+            40 + 8 * h_margin + (h_margin + target_size) * c + target_size / 2;
+
+          break;
       }
+
       target_y = target_size * r + target_size / 2;
-      if (r > 5) target_y += v_margin;
-      if (r <= 5) target_x += target_size / 2 + h_margin;
-      // unused space
-      if (
-        (c == 1 && r == 0) ||
-        (c == 6 && r == 0) ||
-        (c == 10 && r == 0) ||
-        (c == 6 && r == 7) ||
-        (c == 11 && r == 0) ||
-        (c == 11 && r == 1) ||
-        (c == 11 && r == 2) ||
-        (c == 11 && r == 3) ||
-        (c == 11 && r == 4) ||
-        (c == 11 && r == 5)
-      )
-        continue;
-      // category's names
-      if (
-        (c == 0 && r == 0) ||
-        (c == 5 && r == 0) ||
-        (c == 9 && r == 0) ||
-        (c == 0 && r == 7) ||
-        (c == 5 && r == 7) ||
-        (c == 11 && r == 7)
-      ) {
-        target_x -= target_size / 2;
-        target_y += target_size / 1.5;
-        console.log(target_x + "---" + target_y);
-        const label = new Label(
-          _labels_names[skip],
-          target_x,
-          target_y,
-          _labels_colors[skip]
-        );
-        labels.push(label);
-        skip++;
-        continue;
+      // if (r > 5) target_y += v_margin;
+      // if (r <= 5) target_x += target_size / 2 + h_margin;
+
+      switch (n) {
+        case 14:
+        case 16:
+        case 23:
+        case 39:
+        case 42:
+        case 46:
+        case 47:
+        case 59:
+        case 67:
+        case 71:
+        case 82:
+        case 83:
+        case 88:
+        case 92:
+        case 94:
+        case 95:
+          continue;
       }
+
+      // if (n > 80) continue;
 
       let numero = order[legendas_index] - 1;
 
@@ -586,8 +824,8 @@ function windowResized() {
     );*/
 
     createRectangles(
-      target_size * PPCM, 
-      horizontal_gap * PPCM - 80, 
+      target_size * PPCM,
+      horizontal_gap * PPCM - 80,
       vertical_gap * PPCM - 80
     );
 
