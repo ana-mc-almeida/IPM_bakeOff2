@@ -204,7 +204,7 @@ class Target {
 
     // Draw target
     if (strokeByName.hasKey(this.name)) {
-      stroke(strokeByName.get(this.name)), strokeWeight(8);
+      stroke(strokeByName.get(this.name)), strokeWeight(5);
     } else strokeWeight(0);
 
     if (fillByName.hasKey(this.name)) fill(color(fillByName.get(this.name)));

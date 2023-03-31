@@ -59,8 +59,8 @@ let labels = [];
 let targets = [];
 let order = [
   21, 29, 59, 7, 77, 46, 38, 43, 61, 12, 62, 35, 60, 6, 69, 42, 51, 49, 53, 22,
-  63, 40, 13, 64, 65, 23, 66, 9, 37, 11, 32, 56, 16, 34, 1, 2, 8, 10, 14, 72,
-  67, 44, 45, 18, 19, 20, 33, 31, 56, 76, 5, 27, 17, 30, 24, 3, 71, 26, 25, 74,
+  63, 40, 13, 64, 65, 23, 66, 9, 37, 11, 32, 56, 34, 1, 2, 8, 10, 14, 72, 67,
+  16, 44, 45, 18, 19, 20, 33, 31, 57, 76, 5, 27, 17, 30, 24, 3, 71, 26, 25, 74,
   70, 5, 28, 36, 47, 48, 78, 58, 68, 15, 80, 39, 52, 50, 41, 75, 79, 55, 73, 54,
 ];
 let rectangles = [];
@@ -372,84 +372,6 @@ function createLines(target_size, horizontal_gap, vertical_gap) {
   }
 } */
 
-function createRectangles(target_size, horizontal_gap, vertical_gap) {
-  h_margin = horizontal_gap / 20;
-  v_margin = vertical_gap / 1.5;
-
-  //let distance_to_target_h = h_margin / 2;
-  let distance_to_target_v = v_margin / 2;
-
-  for (var i = 0; i < lines_x.length; i++) {
-    let x, y;
-
-    //FRUITS
-    if (lines_x[i] <= 5 && lines_y[i] <= 6) {
-      x =
-        40 +
-        (h_margin + target_size) * lines_x[i] +
-        target_size / 2 +
-        h_margin / 2;
-      y = 40 + target_size * lines_y[i];
-    }
-
-    if (lines_x[i] > 5 && lines_x[i] <= 8) {
-      if (lines_y[i] >= 0 && lines_y[i] <= 6) {
-        x =
-          40 +
-          (h_margin + target_size) * (lines_x[i] - 1) +
-          4 * h_margin +
-          target_size / 2 +
-          h_margin / 2;
-        y = 40 + target_size * lines_y[i];
-      }
-
-      if (lines_y[i] > 6) {
-        x =
-          40 +
-          (h_margin + target_size) * (lines_x[i] - 1) +
-          4 * h_margin -
-          h_margin / 2;
-        y = 40 + target_size * (lines_y[i] - 1) + vertical_gap;
-      }
-    }
-
-    if (lines_x[i] >= 9) {
-      if (lines_y[i] <= 6) {
-        x =
-          40 +
-          (h_margin + target_size) * (lines_x[i] - 2) +
-          8 * h_margin +
-          target_size / 2 +
-          h_margin / 2;
-        y = 40 + target_size * lines_y[i];
-      }
-
-      if (lines_y[i] > 6) {
-        x =
-          40 +
-          (h_margin + target_size) * (lines_x[i] - 2) +
-          8 * h_margin -
-          h_margin / 2;
-        y = 40 + target_size * (lines_y[i] - 1) + vertical_gap;
-      }
-    }
-
-    if (lines_x[i] <= 5 && lines_y[i] > 6) {
-      x = 40 + (h_margin + target_size) * lines_x[i] - h_margin / 2;
-      y = 40 + target_size * (lines_y[i] - 1) + vertical_gap;
-    }
-
-    let width, height;
-    width = (h_margin + target_size) * lines_w[i];
-    height =
-      (v_margin + target_size) * lines_h[i] -
-      2 * lines_h[i] * distance_to_target_v;
-
-    let rectangle = new Rectangle(x, y, width, height, line_color[i]);
-    rectangles.push(rectangle);
-  }
-}
-
 // Creates and positions the UI targets
 function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
@@ -577,13 +499,6 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
-        case 35:
-          target_x =
-            80 +
-            5 * big_h_margin +
-            (h_margin + target_size) * c +
-            target_size / 2; // give it some margin from the left border
-          break;
         case 36:
           target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
@@ -616,46 +531,56 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
             target_size / 2; // give it some margin from the left border
           break;
         case 48:
-        case 49:
-          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2;
           break;
+        case 49:
         case 50:
+          target_x =
+            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
         case 51:
         case 52:
         case 53:
         case 54:
         case 55:
-          target_x =
-            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
-          break;
         case 56:
-        case 57:
-        case 58:
           target_x =
             80 +
             2 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
-
-        case 60:
-        case 61:
-          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+        case 57:
+        case 58:
+        case 59:
+          target_x =
+            80 +
+            3 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
           break;
+        case 61:
         case 62:
+          target_x =
+            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          break;
         case 63:
         case 64:
         case 65:
         case 66:
-          target_x =
-            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
-          break;
-        case 68:
-        case 69:
-        case 70:
+        case 67:
           target_x =
             80 +
-            2 * big_h_margin +
+            big_h_margin * 2 +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
+        case 69:
+        case 70:
+        case 71:
+          target_x =
+            80 +
+            3 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
@@ -759,10 +684,10 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 39:
         case 42:
         case 46:
+        case 35:
         case 47:
-        case 59:
-        case 67:
-        case 71:
+        case 60:
+        case 68:
         case 82:
         case 83:
         case 88:
@@ -808,7 +733,7 @@ function windowResized() {
     // Below we find out out white space we can have between 2 cm targets
     let screen_width = display.width * 2.54; // screen width
     let screen_height = display.height * 2.54; // screen height
-    let target_size = 2; // sets the target size (will be converted to cm when passed to createTargets)
+    let target_size = 1.8; // sets the target size (will be converted to cm when passed to createTargets)
     let horizontal_gap = screen_width - target_size * GRID_COLUMNS; // empty space in cm across the x-axis (based on 10 targets per row)
     let vertical_gap = screen_height - target_size * GRID_ROWS; // empty space in cm across the y-axis (based on 8 targets per column)
     // Creates and positions the UI targets according to the white space defined above (in cm!)
@@ -824,12 +749,6 @@ function windowResized() {
       horizontal_gap * PPCM - 80, 
       vertical_gap * PPCM - 80
     );*/
-
-    createRectangles(
-      target_size * PPCM,
-      horizontal_gap * PPCM - 80,
-      vertical_gap * PPCM - 80
-    );
 
     // Starts drawing targets immediately after we go fullscreen
     draw_targets = true;
