@@ -58,12 +58,11 @@ let labels = [];
 // Target list
 let targets = [];
 let order = [
-  21, 6, 7, 59, 60, 12, 22, 13, 1, 2, 39, 38, 77, 69, 61, 62, 23, 8, 9, 10, 11,
-  43, 42, 63, 64, 65, 66, 14, 16, 17, 18, 19, 51, 40, 72, 67, 71, 76, 20, 24, 3,
-  25, 26, 45, 48, 74, 70, 75, 78, 4, 27, 5, 28, 15, 52, 41, 79, 73, 68, 80, 29,
-  35, 34, 37, 32, 46, 47, 54, 49, 53, 56, 44, 30, 33, 31, 36, 57, 50, 58, 55,
+  21, 29, 59, 7, 77, 46, 38, 43, 61, 12, 62, 35, 60, 6, 69, 42, 51, 49, 53, 22,
+  63, 40, 13, 64, 65, 23, 66, 9, 37, 11, 32, 56, 16, 34, 1, 2, 8, 10, 14, 72,
+  67, 44, 45, 18, 19, 20, 33, 31, 56, 76, 5, 27, 17, 30, 24, 3, 71, 26, 25, 74,
+  70, 5, 28, 36, 47, 48, 78, 58, 68, 15, 80, 39, 52, 50, 41, 75, 79, 55, 73, 54,
 ];
-
 let rectangles = [];
 let lines_x = [0, 6, 9, 0, 6, 9];
 let lines_y = [0, 0, 0, 7, 7, 7];
@@ -456,8 +455,8 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
   // for the number of targets minus one
   h_margin = horizontal_gap / 32;
-  let big_h_margin = 3 * h_margin;
-  v_margin = vertical_gap;
+  let big_h_margin = 5.5 * h_margin;
+  v_margin = vertical_gap / 4;
   let legendas_index = 0;
 
   const _labels_names = ["FRUITS", "MILK", "VEGGIE", "JUI", "CREAM", "YOG"];
@@ -484,20 +483,20 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 0:
         case 1:
         case 2:
-          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         // primeira linha B
         case 3:
         case 4:
           target_x =
-            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         // primeira linha BIO
         case 5:
         case 6:
         case 7:
           target_x =
-            40 +
+            80 +
             2 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
@@ -508,7 +507,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 10:
         case 11:
           target_x =
-            40 +
+            80 +
             3 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
@@ -516,19 +515,19 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         // segunda linha A
         case 12:
         case 13:
-          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         // segunda linha B
         case 15:
           target_x =
-            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         // segunda linha BIO
         case 17:
         case 18:
         case 19:
           target_x =
-            40 +
+            80 +
             2 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
@@ -538,24 +537,24 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 21:
         case 22:
           target_x =
-            40 +
+            80 +
             3 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 24:
-          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         // segunda linha B
         case 25:
         case 26:
         case 27:
           target_x =
-            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 28:
           target_x =
-            40 +
+            80 +
             2 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
@@ -563,7 +562,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 29:
         case 30:
           target_x =
-            40 +
+            80 +
             3 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
@@ -573,36 +572,36 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 33:
         case 34:
           target_x =
-            40 +
+            80 +
             4 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 35:
           target_x =
-            40 +
+            80 +
             5 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 36:
-          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 37:
         case 38:
           target_x =
-            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 40:
           target_x =
-            40 +
+            80 +
             2 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 41:
           target_x =
-            40 +
+            80 +
             3 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
@@ -611,14 +610,14 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 44:
         case 45:
           target_x =
-            40 +
+            80 +
             4 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 48:
         case 49:
-          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 50:
         case 51:
@@ -627,13 +626,13 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 54:
         case 55:
           target_x =
-            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 56:
         case 57:
         case 58:
           target_x =
-            40 +
+            80 +
             2 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
@@ -641,7 +640,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
 
         case 60:
         case 61:
-          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 62:
         case 63:
@@ -649,13 +648,13 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 65:
         case 66:
           target_x =
-            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 68:
         case 69:
         case 70:
           target_x =
-            40 +
+            80 +
             2 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
@@ -664,43 +663,43 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 73:
         case 74:
         case 75:
-          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 76:
           target_x =
-            40 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+            80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 77:
           target_x =
-            40 +
+            80 +
             2 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 78:
           target_x =
-            40 +
+            80 +
             3 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 79:
           target_x =
-            40 +
+            80 +
             4 * big_h_margin +
             +(h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 80:
           target_x =
-            40 +
+            80 +
             5 * big_h_margin +
             +(h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 81:
           target_x =
-            40 +
+            80 +
             6 * big_h_margin +
             +(h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
@@ -709,44 +708,47 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
         case 85:
         case 86:
         case 87:
-          target_x = 40 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 89:
           target_x =
-            40 +
+            80 +
             2 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 90:
           target_x =
-            40 +
+            80 +
             3 * big_h_margin +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 91:
           target_x =
-            40 +
+            80 +
             4 * big_h_margin +
             +(h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         case 93:
           target_x =
-            40 +
+            80 +
             6 * big_h_margin +
             +(h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
         default: // give it some margin from the left border
           target_x =
-            40 + 8 * h_margin + (h_margin + target_size) * c + target_size / 2;
+            80 + 8 * h_margin + (h_margin + target_size) * c + target_size / 2;
 
           break;
       }
-
-      target_y = target_size * r + target_size / 2;
+      if (r < 2) target_y = v_margin;
+      else if (r < 4) target_y = v_margin * 2;
+      else if (r < 6) target_y = v_margin * 3;
+      else if (r < 8) target_y = v_margin * 4;
+      target_y += target_size * r + target_size / 2;
       // if (r > 5) target_y += v_margin;
       // if (r <= 5) target_x += target_size / 2 + h_margin;
 
