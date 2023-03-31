@@ -190,17 +190,19 @@ class Target {
       "Vanilla Yoghurt": color(128, 43, 0),
       "Vine Tomato": color(128, 43, 0),
 
-      "Yellow Onion": color(102, 0, 41),
-      Yoghurt: color(102, 0, 41),
+      "Yellow Onion": color(61, 61, 92),
+      Yoghurt: color(61, 61, 92),
 
-      Watermelon: color(128, 0, 0),
-      "White Potato": color(128, 0, 0),
+      Watermelon: color(88, 0, 0),
+      "White Potato": color(88, 0, 0),
 
       Zucchini: color(31, 96, 63),
-
-      "0% Milk": color(61, 61, 92),
-      "0% Yoghurt": color(61, 61, 92),
+      
+      "0% Milk": color(102, 0, 41),
+      "0% Yoghurt": color(102, 0, 41),
     });
+
+    
 
     // Draw target
     if (strokeByName.hasKey(this.name)) {

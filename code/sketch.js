@@ -45,7 +45,7 @@ class Label {
     stroke("white");
     strokeWeight(5);
     fill(this.color);
-    textFont("Arial", 48);
+    textFont("Trebuchet MS", 40);
     textAlign(LEFT);
     text(this.label, this.x, this.y);
     textStyle(NORMAL);
@@ -61,7 +61,7 @@ let order = [
   21, 29, 59, 7, 77, 46, 38, 43, 61, 12, 62, 35, 60, 6, 69, 42, 51, 49, 53, 22,
   63, 40, 13, 64, 65, 23, 66, 9, 37, 11, 32, 56, 34, 1, 2, 8, 10, 14, 72, 67,
   16, 44, 45, 18, 19, 20, 33, 31, 57, 76, 5, 27, 17, 30, 24, 3, 71, 26, 25, 74,
-  70, 5, 28, 36, 47, 48, 78, 58, 68, 15, 80, 39, 52, 50, 41, 75, 79, 55, 73, 54,
+  70, 5, 28, 36, 47, 48, 78, 58, 15, 68, 80, 39, 52, 50, 41, 75, 79, 73, 55, 54,
 ];
 let rectangles = [];
 let lines_x = [0, 6, 9, 0, 6, 9];
@@ -165,14 +165,14 @@ function draw() {
     }
 
     // Draw all labels
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 20; i++) {
       labels[i].draw();
     }
 
     fill(color(255, 255, 255));
     // Draw the target label to be selected in the current trial
     textFont("Arial", 20);
-    textAlign(CENTER);
+    textAlign(LEFT);
     text(legendas.getString(trials[current_trial], 0), width / 2, height - 20);
   }
 }
@@ -372,24 +372,166 @@ function createLines(target_size, horizontal_gap, vertical_gap) {
   }
 } */
 
+function createRectangles(target_size, horizontal_gap, vertical_gap) {
+  h_margin = horizontal_gap / 20;
+  v_margin = vertical_gap / 1.5;
+
+  //let distance_to_target_h = h_margin / 2;
+  let distance_to_target_v = v_margin / 2;
+
+  for (var i = 0; i < lines_x.length; i++) {
+    let x, y;
+
+    //FRUITS
+    if (lines_x[i] <= 5 && lines_y[i] <= 6) {
+      x =
+        40 +
+        (h_margin + target_size) * lines_x[i] +
+        target_size / 2 +
+        h_margin / 2;
+      y = 40 + target_size * lines_y[i];
+    }
+
+    if (lines_x[i] > 5 && lines_x[i] <= 8) {
+      if (lines_y[i] >= 0 && lines_y[i] <= 6) {
+        x =
+          40 +
+          (h_margin + target_size) * (lines_x[i] - 1) +
+          4 * h_margin +
+          target_size / 2 +
+          h_margin / 2;
+        y = 40 + target_size * lines_y[i];
+      }
+
+      if (lines_y[i] > 6) {
+        x =
+          40 +
+          (h_margin + target_size) * (lines_x[i] - 1) +
+          4 * h_margin -
+          h_margin / 2;
+        y = 40 + target_size * (lines_y[i] - 1) + vertical_gap;
+      }
+    }
+
+    if (lines_x[i] >= 9) {
+      if (lines_y[i] <= 6) {
+        x =
+          40 +
+          (h_margin + target_size) * (lines_x[i] - 2) +
+          8 * h_margin +
+          target_size / 2 +
+          h_margin / 2;
+        y = 40 + target_size * lines_y[i];
+      }
+
+      if (lines_y[i] > 6) {
+        x =
+          40 +
+          (h_margin + target_size) * (lines_x[i] - 2) +
+          8 * h_margin -
+          h_margin / 2;
+        y = 40 + target_size * (lines_y[i] - 1) + vertical_gap;
+      }
+    }
+
+    if (lines_x[i] <= 5 && lines_y[i] > 6) {
+      x = 40 + (h_margin + target_size) * lines_x[i] - h_margin / 2;
+      y = 40 + target_size * (lines_y[i] - 1) + vertical_gap;
+    }
+
+    let width, height;
+    width = (h_margin + target_size) * lines_w[i];
+    height =
+      (v_margin + target_size) * lines_h[i] -
+      2 * lines_h[i] * distance_to_target_v;
+
+    let rectangle = new Rectangle(x, y, width, height, line_color[i]);
+    rectangles.push(rectangle);
+  }
+}
+
 // Creates and positions the UI targets
 function createTargets(target_size, horizontal_gap, vertical_gap) {
   // Define the margins between targets by dividing the white space
   // for the number of targets minus one
   h_margin = horizontal_gap / 32;
-  let big_h_margin = 5.5 * h_margin;
+  let big_h_margin = 5 * h_margin;
   v_margin = vertical_gap / 4;
   let legendas_index = 0;
 
-  const _labels_names = ["FRUITS", "MILK", "VEGGIE", "JUI", "CREAM", "YOG"];
-  const _labels_colors = [
-    "#cc5200",
-    "#1a1a1a",
-    "#267326",
-    "#990000",
-    "#ffa64d",
-    "#000099",
+  const _labels_names = [
+    "A",
+    "B",
+    "B\nI\nO",
+    "C",
+    "F",
+    "G",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "R",
+    "S",
+    "T",
+    "V",
+    "W",
+    "Y",
+    "Z",
+    "0",
   ];
+  const _labels_colors = [
+    "#206040",
+    "#4d4d00",
+    "#600080",
+    "#b35900",
+    "#004d4d",
+    "#602020",
+    "#006622",
+    "#55552b",
+    "#803300",
+    "#993d00",
+    "#194d19",
+    "#660022",
+    "#202060",
+    "#003366",
+    "#800000",
+    "#802b00",
+    "#580000",
+    "#3d3d5c",
+    "#1f603f",
+    "#660029",
+  ];
+
+  const posicoes = [
+    [0, 3, 5, 8],
+    [0, 1, 4, 5, 7],
+    [0, 1, 3, 9],
+    [0, 4, 5, 6, 7, 8, 9],
+  ];
+  const pos = [4, 5, 4, 7];
+  let count = 0;
+
+  let j = 0;
+  let k = 0;
+  pos.forEach((size) => {
+    console.log("size = " + size);
+    for (var i = 0; i < size; i++) {
+      console.log("i = " + i);
+      console.log(posicoes[j][i]);
+      const column = posicoes[j][i];
+      const label = new Label(
+        _labels_names[k + i],
+        (h_margin + target_size) * column + target_size / 2 + big_h_margin * i, // give it some margin from the left border,
+        target_size * j * 2 + target_size + v_margin * (j + 1),
+        _labels_colors[k + i]
+      );
+      labels.push(label);
+    }
+    k += size;
+    j++;
+  });
 
   let skip = 0;
   // Set targets in a 8 x 10 grid
@@ -399,7 +541,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
       let target_y;
 
       const n = r * 12 + c;
-      console.log(n);
+      // console.log(n);
       switch (n) {
         // primeira linha A
         case 0:
@@ -499,6 +641,13 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
+        case 35:
+          target_x =
+            80 +
+            5 * big_h_margin +
+            (h_margin + target_size) * c +
+            target_size / 2; // give it some margin from the left border
+          break;
         case 36:
           target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
@@ -531,7 +680,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
             target_size / 2; // give it some margin from the left border
           break;
         case 48:
-          target_x = 80 + (h_margin + target_size) * c + target_size / 2;
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
         case 49:
         case 50:
@@ -559,25 +708,26 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
-        case 61:
+
         case 62:
+        case 61:
           target_x =
             80 + big_h_margin + (h_margin + target_size) * c + target_size / 2; // give it some margin from the left border
           break;
+        case 67:
         case 63:
         case 64:
         case 65:
         case 66:
-        case 67:
           target_x =
             80 +
             big_h_margin * 2 +
             (h_margin + target_size) * c +
             target_size / 2; // give it some margin from the left border
           break;
+        case 71:
         case 69:
         case 70:
-        case 71:
           target_x =
             80 +
             3 * big_h_margin +
@@ -664,9 +814,7 @@ function createTargets(target_size, horizontal_gap, vertical_gap) {
             target_size / 2; // give it some margin from the left border
           break;
         default: // give it some margin from the left border
-          target_x =
-            80 + 8 * h_margin + (h_margin + target_size) * c + target_size / 2;
-
+          target_x = 80 + (h_margin + target_size) * c + target_size / 2;
           break;
       }
       if (r < 2) target_y = v_margin;
